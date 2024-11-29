@@ -4,7 +4,8 @@
     "pages/city/city",
     "pages/changeCity/changeCity",
     "pages/news/news",
-    "pages/personal/personal"
+    "pages/personal/personal",
+    "pages/uploadVideo/uploadVideo"
   ],
   "subPackages": [],
   "window": {
@@ -31,6 +32,5 @@
     ]
   },
   "permission": {},
-  "usingComponents": {},
-  "sitemapLocation": "sitemap4.json"
+  "usingComponents": {}
 }

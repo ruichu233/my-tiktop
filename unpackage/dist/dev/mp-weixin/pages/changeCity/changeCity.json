@@ -1,5 +1,5 @@
 {
-  "navigationBarTitleText": "首页",
+  "navigationBarTitleText": "",
   "usingComponents": {
     "change-header": "/components/changeHeader",
     "change-list": "/components/changeList",
