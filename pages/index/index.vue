@@ -22,13 +22,13 @@
 			firstNav,
 			videoList,
 		},
-		// onLoad() {
-		// 	this.getData()
-		// },
+		onLoad() {
+			this.getData()
+		},
 		methods: {
 			getData(){
 				uni.request({
-					url:"http://192.168.43.101:80/api/va.json",
+					url:"http://127.0.0.1:8080/api/",
 					header:{
 						
 					},

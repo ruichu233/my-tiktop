@@ -6,7 +6,7 @@
 		:autoplay="false"
 		:controls="false" 
 		:loop="true" 
-		:src="'http://192.168.43.101:80/video/'+video.src" 
+		:src="video.video_url" 
 		@click="click"
 		
 		>
@@ -26,8 +26,8 @@
 			};
 		},
 		onReady(){
-			/* this.videoContext=uni.createVideoContext('myVideo',this)
-			console.log(this.videoContext,11) */
+			this.videoContext=uni.createVideoContext('myVideo',this)
+			console.log(this.videoContext,11)
 		},
 		methods:{
 			click(){
