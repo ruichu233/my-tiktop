@@ -167,14 +167,20 @@ var _default = {
     firstNav: firstNav,
     videoList: videoList
   },
-  // onLoad() {
-  // 	this.getData()
-  // },
+  onLoad: function onLoad() {
+    this.getData();
+  },
   methods: {
     getData: function getData() {
       var _this = this;
       uni.request({
-        url: "http://192.168.43.101:80/api/va.json",
+        url: "http://127.0.0.1:8080/api/v1/video/video-list/",
+        data: {
+          page: 10,
+          cursor: 0,
+          feed_type: 1
+        },
+        method: 'POST',
         header: {},
         success: function success(res) {
           _this.list = res.data.list;

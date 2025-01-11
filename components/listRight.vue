@@ -18,9 +18,6 @@
 		</view>
 		<view class="iconfont iconfenxiang right-box">
 		</view>
-		<view class="number">
-			{{item.shareNumber}}
-		</view>
 		<view class="around">
 			<image class="img" src="../static/img/2-1.jpg" mode=""></image>
 		</view>

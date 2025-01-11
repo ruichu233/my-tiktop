@@ -185,6 +185,9 @@ var _asyncToGenerator2 = _interopRequireDefault(__webpack_require__(/*! @babel/r
 //
 //
 //
+//
+//
+//
 var _default = {
   data: function data() {
     return {
@@ -205,6 +208,10 @@ var _default = {
   },
 
   methods: {
+    // 返回上一页
+    goBack: function goBack() {
+      uni.navigateBack();
+    },
     // 选择视频文件
     chooseVideo: function chooseVideo() {
       var _this = this;
@@ -266,7 +273,7 @@ var _default = {
     uploadVideo: function uploadVideo() {
       var _this3 = this;
       return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee3() {
-        var _yield$uni$request, _yield$uni$request2, err, uploadUrlResp, _uploadUrlResp$data, videoUploadURL, coverUploadURL, fileData, _yield$uni$request3, _yield$uni$request4, coverErr, coverUploadResult, videlData, _yield$uni$request5, _yield$uni$request6, videoErr, videoUploadResult;
+        var _yield$uni$request, _yield$uni$request2, err, uploadUrlResp, _uploadUrlResp$data$d, videoUploadURL, coverUploadURL, fileData, _yield$uni$request3, _yield$uni$request4, coverErr, coverUploadResult, videlData, _yield$uni$request5, _yield$uni$request6, videoErr, videoUploadResult;
         return _regenerator.default.wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
@@ -313,7 +320,7 @@ var _default = {
                   data: {},
                   // 可传递必要的参数
                   header: {
-                    "access-token": uni.getStorageSync("access-token") || "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MzI4MjIwOTYsImlhdCI6MTczI342A5NywiaWRlbnRpdHlLZXkiOiI2MDQ2NTExNDAwNjMzMDEiLCJuYmYiOjE3MzI342A5NZ9.OqUHpDXPMxw_L96_Iw5Spe2eC0NnPQo07rfZ20otD8M"
+                    "access-token": uni.getStorageSync("access-token") || "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MzY1OTYzNjQsImlhdCI6MTczNjU2MDM2NCwiaWRlbnRpdHlLZXkiOiI2MDQ2NTExNDAwNjMzMDEiLCJuYmYiOjE3MzY1NjAzNjR9.gBWu2eTYqtVa-3udi0Rv4n6pWsyBuR3_Ya68OWeca4E"
                   }
                 });
               case 13:
@@ -328,7 +335,7 @@ var _default = {
                 throw new Error("获取上传链接失败");
               case 19:
                 // 从响应中提取封面和视频的上传URL
-                _uploadUrlResp$data = uploadUrlResp.data, videoUploadURL = _uploadUrlResp$data.video_url, coverUploadURL = _uploadUrlResp$data.cover_url;
+                _uploadUrlResp$data$d = uploadUrlResp.data.data, videoUploadURL = _uploadUrlResp$data$d.video_url, coverUploadURL = _uploadUrlResp$data$d.cover_url;
                 if (!(!coverUploadURL || !videoUploadURL)) {
                   _context3.next = 22;
                   break;
@@ -374,36 +381,49 @@ var _default = {
                 videoErr = _yield$uni$request6[0];
                 videoUploadResult = _yield$uni$request6[1];
                 if (!(videoErr || videoUploadResult.statusCode !== 200)) {
-                  _context3.next = 40;
+                  _context3.next = 41;
                   break;
                 }
                 throw new Error("视频上传失败");
-              case 40:
+              case 41:
                 // 成功提示
                 uni.showToast({
                   title: "视频发布成功",
                   icon: "success"
                 });
-                _context3.next = 47;
+                uni.request({
+                  url: "http://127.001:8080/v1/video/publish",
+                  method: 'POST',
+                  data: {
+                    video_url: videoUploadURL.split("?")[0],
+                    cover_url: coverUploadURL.split("?")[0],
+                    title: _this3.title,
+                    description: _this3.description
+                  },
+                  header: {
+                    "access-token": uni.getStorageSync("access-token") || "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MzY1OTYzNjQsImlhdCI6MTczNjU2MDM2NCwiaWRlbnRpdHlLZXkiOiI2MDQ2NTExNDAwNjMzMDEiLCJuYmYiOjE3MzY1NjAzNjR9.gBWu2eTYqtVa-3udi0Rv4n6pWsyBuR3_Ya68OWeca4E"
+                  }
+                });
+                _context3.next = 49;
                 break;
-              case 43:
-                _context3.prev = 43;
+              case 45:
+                _context3.prev = 45;
                 _context3.t0 = _context3["catch"](10);
                 console.error("上传失败:", _context3.t0);
                 uni.showToast({
                   title: _context3.t0.message || "上传失败",
                   icon: "none"
                 });
-              case 47:
-                _context3.prev = 47;
+              case 49:
+                _context3.prev = 49;
                 uni.hideLoading();
-                return _context3.finish(47);
-              case 50:
+                return _context3.finish(49);
+              case 52:
               case "end":
                 return _context3.stop();
             }
           }
-        }, _callee3, null, [[10, 43, 47, 50]]);
+        }, _callee3, null, [[10, 45, 49, 52]]);
       }))();
     }
   }

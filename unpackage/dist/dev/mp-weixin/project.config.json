@@ -21,17 +21,7 @@
   "libVersion": "2.25.3",
   "appid": "touristappid",
   "projectname": "tictop",
-  "condition": {
-    "miniprogram": {
-      "list": [
-        {
-          "name": "pages/uploadVideo/uploadVideo",
-          "pathName": "pages/uploadVideo/uploadVideo",
-          "query": ""
-        }
-      ]
-    }
-  },
+  "condition": {},
   "editorSetting": {
     "tabIndent": "insertSpaces",
     "tabSize": 2

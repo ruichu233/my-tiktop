@@ -148,8 +148,8 @@ var _default = {
     };
   },
   onReady: function onReady() {
-    /* this.videoContext=uni.createVideoContext('myVideo',this)
-    console.log(this.videoContext,11) */
+    this.videoContext = uni.createVideoContext('myVideo', this);
+    console.log(this.videoContext, 11);
   },
   methods: {
     click: function click() {

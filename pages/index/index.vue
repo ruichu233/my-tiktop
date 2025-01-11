@@ -1,8 +1,8 @@
 <template>
-	<view class="content" >
+	<view class="content">
 		<tab></tab>
 		<firstNav></firstNav>
-		<!-- <videoList :list="list"></videoList> -->
+		<videoList :list="list"></videoList>
 	</view>
 </template>
 
@@ -10,14 +10,14 @@
 	import tab from '../../components/tab.vue'
 	import firstNav from '../../components/first-nav.vue'
 	import videoList from '../../components/videoList.vue'
-	
+
 	export default {
 		data() {
 			return {
-				list:[]
+				list: []
 			}
 		},
-		components:{
+		components: {
 			tab,
 			firstNav,
 			videoList,
@@ -26,16 +26,20 @@
 			this.getData()
 		},
 		methods: {
-			getData(){
+			getData() {
 				uni.request({
-					url:"http://127.0.0.1:8080/api/",
-					header:{
-						
+					url: "http://127.0.0.1:8080/api/v1/video/video-list/",
+					data: {
+						page: 10,
+						cursor: 0,
+						feed_type: 1
 					},
-					success:(res)=> {
-						this.list=res.data.list
+					method: 'POST',
+					header: {},
+					success: (res) => {
+						this.list = res.data.list
 					}
-					
+
 				})
 			}
 		}
@@ -43,10 +47,9 @@
 </script>
 
 <style>
-	.content{
+	.content {
 		width: 100%;
 		height: 100vh;
 		background: #000000;
 	}
-
 </style>
