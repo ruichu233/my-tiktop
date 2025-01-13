@@ -37,7 +37,6 @@
 				"navigationBarTitleText" : "上传视频"
 			}
 		}
-		
 	],
 	"globalStyle": {
 		"navigationBarTextStyle": "white",
@@ -52,7 +51,6 @@
 			{"pagePath":"pages/city/city"},
 			{"pagePath":"pages/news/news"},
 			{"pagePath":"pages/personal/personal"}
-			// {"pagePath": "pages/uploadVideo/uploadVideo"}
 		]
 		},
 	"condition" : { //模式配置，仅开发期间生效

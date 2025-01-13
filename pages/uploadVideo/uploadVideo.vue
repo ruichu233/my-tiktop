@@ -2,16 +2,14 @@
 	<view class="container">
 		<!-- Header -->
 		<view class="header">
-			<view class="back-button" @click="goBack">
-				<text>←</text>
-			</view>
 			<text>发布视频</text>
 		</view>
 
 		<!-- 视频标题 -->
 		<view class="title-section">
-			<text>视频标题</text>
-			<input v-model="title" placeholder="输入视频标题..." maxlength="50" />
+			<uni-section title="视频标题" type="line" padding>
+				<uni-easyinput errorMessage v-model="title" focus placeholder="输入视频标题..."></uni-easyinput>
+			</uni-section>
 		</view>
 
 		<!-- 视频选择与预览 -->
@@ -23,18 +21,18 @@
 		</view>
 
 		<!-- 封面选择上传 -->
-		<view v-if="videoSrc" class="cover-section">
-			<text>请选择封面</text>
-			<button type="primary" @click="chooseCoverImage">上传封面图</button>
-			<view class="cover-preview" v-if="coverImage">
-				<image :src="coverImage"></image>
-			</view>
+		<view>
+			<uni-file-picker v-model="imageValue" fileMediatype="image" limit="1" title="请选择封面" :del-icon="true"
+				@select="select" auto-upload = "false" ></uni-file-picker>
 		</view>
 
 		<!-- 描述输入框 -->
-		<view class="description-section">
+	<!-- 	<view class="description-section">
 			<textarea v-model="description" placeholder="输入视频描述..." maxlength="100"></textarea>
-		</view>
+		</view> -->
+		<uni-section title="描述" subTitle="dad" type="line" padding>
+			<uni-easyinput type="textarea" autoHeight v-model="description" placeholder="输入视频描述..."></uni-easyinput>
+		</uni-section>
 
 		<!-- 发布按钮 -->
 		<button type="primary" @click="uploadVideo">发布</button>
@@ -45,16 +43,21 @@
 	export default {
 		data() {
 			return {
-				title: "", // 视频标题
-				videoSrc: "", // 本地视频路径
-				coverImage: "", // 封面图路径
-				videoDuration: 0, // 视频时长
+				title: "", // 标题
+				videoName: "", // 视频
+				coverName: "", // 本地视频路径
 				description: "", // 视频描述
-				videoURL: "", // 上传成功的视频 URL
-				coverURL: "", // 上传成功的封面 URL
+				imageValue: [],
+				description: ""
 			};
 		},
 		methods: {
+			// 获取上传状态
+			select(e) {
+				this.imageValue = e.tempFiles
+				this.coverName = e.tempFiles[0].name
+				console.log('选择文件：', this)
+			},
 			// 返回上一页
 			goBack() {
 				uni.navigateBack();
@@ -67,24 +70,9 @@
 				console.log(JSON.stringify(res));
 				if (res[1].tempFilePath) {
 					this.videoSrc = res[1].tempFilePath;
-					this.videoDuration = res[1].duration;
 				}
 			},
-
-			// 选择上传封面图
-			async chooseCoverImage() {
-				const res = await uni.chooseImage({
-					count: 1,
-					sourceType: ["album", "camera"],
-				});
-				console.log(JSON.stringify(res));
-				if (res[1].tempFilePaths) {
-					this.coverImage = res[1].tempFilePaths[0];
-					console.log(JSON.stringify(this.coverImage));
-				}
-			},
-
-			// 上传视频
+			// 发布作品
 			async uploadVideo() {
 				if (!this.title) {
 					uni.showToast({

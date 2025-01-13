@@ -30,10 +30,9 @@
 		methods: {
 		    // 点击事件处理函数
 		    goToPage() {
-		      // 使用uni.navigateTo进行页面跳转
 			  console.log("跳转")
 		      uni.navigateTo({
-		        url: '/pages/uploadVideo/uploadVideo', // 替换为你的目标页面路径
+		        url:"/pages/uploadVideo/uploadVideo",
 				success:function(){
 					console.log("succ")
 				},
