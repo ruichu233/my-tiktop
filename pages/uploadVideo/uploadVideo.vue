@@ -2,15 +2,13 @@
 	<view class="container">
 		<!-- Header -->
 		<view class="header">
-			<text>发布视频</text>
+			<text>视频发布</text>
 		</view>
 
 		<!-- 视频标题 -->
-		<view class="title-section">
-			<uni-section title="视频标题" type="line" padding>
-				<uni-easyinput errorMessage v-model="title" focus placeholder="输入视频标题..."></uni-easyinput>
-			</uni-section>
-		</view>
+		<uni-section title="视频标题" type="line" padding>
+			<uni-easyinput v-model="title" focus placeholder="输入视频标题..."></uni-easyinput>
+		</uni-section>
 
 		<!-- 视频选择与预览 -->
 		<view class="video-section" @click="chooseVideo">
@@ -21,42 +19,46 @@
 		</view>
 
 		<!-- 封面选择上传 -->
-		<view>
-			<uni-file-picker v-model="imageValue" fileMediatype="image" limit="1" title="请选择封面" :del-icon="true"
-				@select="select" auto-upload = "false" ></uni-file-picker>
-		</view>
+		<uni-section title="请选择封面" type="line" padding>
+			<uni-file-picker v-model="imageValue" fileMediatype="image" limit="1" :del-icon="true" @select="select"
+				auto-upload="false"></uni-file-picker>
+		</uni-section>
 
 		<!-- 描述输入框 -->
-	<!-- 	<view class="description-section">
-			<textarea v-model="description" placeholder="输入视频描述..." maxlength="100"></textarea>
-		</view> -->
-		<uni-section title="描述" subTitle="dad" type="line" padding>
+		<uni-section title="视频描述" type="line" padding>
 			<uni-easyinput type="textarea" autoHeight v-model="description" placeholder="输入视频描述..."></uni-easyinput>
 		</uni-section>
 
 		<!-- 发布按钮 -->
-		<button type="primary" @click="uploadVideo">发布</button>
+		<button type="primary" @click="uploadVideo" class="upload-button">发布</button>
+		<tab></tab>
 	</view>
+
 </template>
 
 <script>
+	import tab from '../../components/tab.vue'
 	export default {
+		components: {
+			tab
+		},
 		data() {
 			return {
 				title: "", // 标题
-				videoName: "", // 视频
-				coverName: "", // 本地视频路径
+				videoName: "", // 视频名称
+				videoSrc: "", // 视频路径
+				coverName: "", // 封面名称
+				coverSrc: "", // 封面路径
 				description: "", // 视频描述
-				imageValue: [],
 				description: ""
 			};
 		},
 		methods: {
 			// 获取上传状态
 			select(e) {
-				this.imageValue = e.tempFiles
+				this.coverSrc = e.tempFilePaths[0]
 				this.coverName = e.tempFiles[0].name
-				console.log('选择文件：', this)
+				console.log('选择文件：', e)
 			},
 			// 返回上一页
 			goBack() {
@@ -90,7 +92,7 @@
 					return;
 				}
 
-				if (!this.coverImage) {
+				if (!this.coverSrc) {
 					uni.showToast({
 						title: "请上传封面图",
 						icon: "none",
@@ -111,7 +113,7 @@
 						data: {}, // 可传递必要的参数
 						header: {
 							"access-token": uni.getStorageSync("access-token") ||
-								"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MzY1OTYzNjQsImlhdCI6MTczNjU2MDM2NCwiaWRlbnRpdHlLZXkiOiI2MDQ2NTExNDAwNjMzMDEiLCJuYmYiOjE3MzY1NjAzNjR9.gBWu2eTYqtVa-3udi0Rv4n6pWsyBuR3_Ya68OWeca4E",
+								"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MzY5NTg3OTcsImlhdCI6MTczNjkyMjc5NywiaWRlbnRpdHlLZXkiOiI2MDQ2NTExNDAwNjMzMDEiLCJuYmYiOjE3MzY5MjI3OTd9.he5ELpTRPYQ9B26AdzOTUqQnGmwTv8P47rgeVNkg1Fg",
 						},
 					});
 
@@ -130,7 +132,7 @@
 					}
 
 					// Step 2: 上传封面图
-					const fileData = uni.getFileSystemManager().readFileSync(this.coverImage);
+					const fileData = uni.getFileSystemManager().readFileSync(this.coverSrc);
 					const [coverErr, coverUploadResult] = await uni.request({
 						url: coverUploadURL,
 						method: 'PUT',
@@ -176,11 +178,12 @@
 						},
 						header: {
 							"access-token": uni.getStorageSync("access-token") ||
-								"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MzY1OTYzNjQsImlhdCI6MTczNjU2MDM2NCwiaWRlbnRpdHlLZXkiOiI2MDQ2NTExNDAwNjMzMDEiLCJuYmYiOjE3MzY1NjAzNjR9.gBWu2eTYqtVa-3udi0Rv4n6pWsyBuR3_Ya68OWeca4E",
+								"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MzY5NTg3OTcsImlhdCI6MTczNjkyMjc5NywiaWRlbnRpdHlLZXkiOiI2MDQ2NTExNDAwNjMzMDEiLCJuYmYiOjE3MzY5MjI3OTd9.he5ELpTRPYQ9B26AdzOTUqQnGmwTv8P47rgeVNkg1Fg",
 						}
 					})
 
 
+					goBack()
 				} catch (err) {
 					console.error("上传失败:", err);
 					uni.showToast({
@@ -197,73 +200,23 @@
 
 <style scoped>
 	.container {
-		padding: 40px;
+		padding: 80rpx;
 		max-width: 600px;
 		/* 设置最大宽度 */
 		margin: 0 auto;
 		/* 水平居中 */
 	}
 
-	/* 返回按钮样式 */
-	.back-button {
-		position: absolute;
-		top: 20px;
-		left: 20px;
-		padding: 10px 15px;
-		background-color: #007aff;
-		color: white;
-		border-radius: 50px;
-		font-size: 16px;
-		display: flex;
-		align-items: center;
-		cursor: pointer;
-		transition: background-color 0.3s;
-	}
-
-	.back-button:hover {
-		background-color: #005bb5;
-	}
-
-
 	.header {
 		font-size: 18px;
 		font-weight: bold;
-		margin-bottom: 20px;
+		margin-bottom: 20rpx;
 		text-align: center;
-	}
-
-	.title-section {
-		margin-bottom: 20px;
-		/* 统一使用margin-bottom设置间距 */
-	}
-
-	.title-section input {
-		width: 100%;
-		height: 40px;
-		border-radius: 8px;
-		padding: 10px;
-		background-color: #f2f2f2;
-		transition: all 0.3s ease;
-		/* 添加过渡效果用于聚焦时的样式变化 */
-	}
-
-	.title-section input:focus {
-		border-color: #007aff;
-		/* 聚焦时边框颜色改变 */
-		box-shadow: 0 0 5px rgba(0, 122, 255, 0.5);
-		/* 聚焦时添加阴影 */
-	}
-
-	.title-section input::placeholder {
-		color: #999;
-		/* 占位符文本颜色 */
-		font-size: 14px;
-		/* 占位符文本字体大小 */
 	}
 
 	.video-section {
 		width: 100%;
-		height: 250px;
+		height: 230px;
 		background-color: #f2f2f2;
 		border-radius: 8px;
 		display: flex;
@@ -310,73 +263,6 @@
 		font-size: 16px;
 	}
 
-	.cover-section {
-		margin-bottom: 20px;
-		/* 统一使用margin-bottom设置间距 */
-	}
-
-	.cover-preview {
-		width: 100%;
-		height: 150px;
-		margin-top: 10px;
-		border-radius: 8px;
-		border: 1px solid #ddd;
-		/* 添加边框 */
-		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-		/* 添加阴影 */
-		overflow: hidden;
-		/* 确保图片不会超出边界 */
-		position: relative;
-		/* 为遮罩设置定位 */
-	}
-
-	.cover-preview::before {
-		content: "";
-		position: absolute;
-		top: 0;
-		left: 0;
-		width: 100%;
-		height: 100%;
-		background-color: rgba(0, 0, 0, 0.3);
-		opacity: 1;
-		transition: opacity 0.3s ease;
-		/* 添加过渡效果用于遮罩显示隐藏 */
-	}
-
-	.cover-preview:hover::before {
-		opacity: 0;
-		/* 鼠标悬停时隐藏遮罩 */
-	}
-
-	.description-section {
-		margin-bottom: 20px;
-		/* 统一使用margin-bottom设置间距 */
-	}
-
-	textarea {
-		width: 100%;
-		height: 80px;
-		border-radius: 8px;
-		padding: 10px;
-		background-color: #f2f2f2;
-		transition: all 0.3s ease;
-		/* 添加过渡效果用于聚焦时的样式变化 */
-	}
-
-	textarea:focus {
-		border-color: #007aff;
-		/* 聚焦时边框颜色改变 */
-		box-shadow: 0 0 5px rgba(0, 122, 255, 0.5);
-		/* 聚焦时添加阴影 */
-	}
-
-	textarea::placeholder {
-		color: #999;
-		/* 占位符文本颜色 */
-		font-size: 14px;
-		/* 占位符文本字体大小 */
-	}
-
 	button {
 		transition: all 0.3s ease;
 		/* 添加过渡效果用于悬停时的样式变化 */
@@ -391,7 +277,8 @@
 	}
 
 	.upload-button {
-		margin-top: 30px;
+		margin-top: 30rpx;
+		margin-bottom:30rpx;
 		width: 100%;
 	}
 </style>

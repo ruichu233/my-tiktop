@@ -1,15 +1,10 @@
 <template>
 	<view class="listLeft">
 		<view class="author">
-			{{item.author}}
+			@{{item.author_name}}
 		</view>
 		<view class="title">
 			{{item.title}}
-		</view>
-		<view class="box">
-			<view class="music">
-				@月光下跳舞，婀娜多姿@
-			</view>
 		</view>
 	</view>
 </template>

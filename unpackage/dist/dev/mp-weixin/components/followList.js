@@ -122,7 +122,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = void 0;
 var followPlayer = function followPlayer() {
   __webpack_require__.e(/*! require.ensure | components/followPlayer */ "components/followPlayer").then((function () {
-    return resolve(__webpack_require__(/*! ./followPlayer.vue */ 336));
+    return resolve(__webpack_require__(/*! ./followPlayer.vue */ 350));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var timer = null;

@@ -100,11 +100,14 @@ __webpack_require__.r(__webpack_exports__);
 var components
 try {
   components = {
+    uniSection: function () {
+      return __webpack_require__.e(/*! import() | uni_modules/uni-section/components/uni-section/uni-section */ "uni_modules/uni-section/components/uni-section/uni-section").then(__webpack_require__.bind(null, /*! @/uni_modules/uni-section/components/uni-section/uni-section.vue */ 290))
+    },
     uniEasyinput: function () {
-      return __webpack_require__.e(/*! import() | uni_modules/uni-easyinput/components/uni-easyinput/uni-easyinput */ "uni_modules/uni-easyinput/components/uni-easyinput/uni-easyinput").then(__webpack_require__.bind(null, /*! @/uni_modules/uni-easyinput/components/uni-easyinput/uni-easyinput.vue */ 384))
+      return __webpack_require__.e(/*! import() | uni_modules/uni-easyinput/components/uni-easyinput/uni-easyinput */ "uni_modules/uni-easyinput/components/uni-easyinput/uni-easyinput").then(__webpack_require__.bind(null, /*! @/uni_modules/uni-easyinput/components/uni-easyinput/uni-easyinput.vue */ 297))
     },
     uniFilePicker: function () {
-      return Promise.all(/*! import() | uni_modules/uni-file-picker/components/uni-file-picker/uni-file-picker */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uni-file-picker/components/uni-file-picker/uni-file-picker")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uni-file-picker/components/uni-file-picker/uni-file-picker.vue */ 290))
+      return Promise.all(/*! import() | uni_modules/uni-file-picker/components/uni-file-picker/uni-file-picker */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uni-file-picker/components/uni-file-picker/uni-file-picker")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uni-file-picker/components/uni-file-picker/uni-file-picker.vue */ 304))
     },
   }
 } catch (e) {
@@ -172,67 +175,36 @@ var _regenerator = _interopRequireDefault(__webpack_require__(/*! @babel/runtime
 var _slicedToArray2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/slicedToArray */ 5));
 var _asyncToGenerator2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/asyncToGenerator */ 57));
 var _defineProperty2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/defineProperty */ 11));
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+var tab = function tab() {
+  __webpack_require__.e(/*! require.ensure | components/tab */ "components/tab").then((function () {
+    return resolve(__webpack_require__(/*! ../../components/tab.vue */ 206));
+  }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
+};
 var _default = {
+  components: {
+    tab: tab
+  },
   data: function data() {
     return (0, _defineProperty2.default)({
       title: "",
       // 标题
       videoName: "",
-      // 视频
+      // 视频名称
+      videoSrc: "",
+      // 视频路径
       coverName: "",
-      // 本地视频路径
-      description: "",
-      // 视频描述
-      imageValue: []
+      // 封面名称
+      coverSrc: "",
+      // 封面路径
+      description: ""
     }, "description", "");
   },
   methods: {
     // 获取上传状态
     select: function select(e) {
-      this.imageValue = e.tempFiles;
+      this.coverSrc = e.tempFilePaths[0];
       this.coverName = e.tempFiles[0].name;
-      console.log('选择文件：', this);
+      console.log('选择文件：', e);
     },
     // 返回上一页
     goBack: function goBack() {
@@ -294,7 +266,7 @@ var _default = {
                 });
                 return _context2.abrupt("return");
               case 6:
-                if (_this2.coverImage) {
+                if (_this2.coverSrc) {
                   _context2.next = 9;
                   break;
                 }
@@ -316,7 +288,7 @@ var _default = {
                   data: {},
                   // 可传递必要的参数
                   header: {
-                    "access-token": uni.getStorageSync("access-token") || "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MzY1OTYzNjQsImlhdCI6MTczNjU2MDM2NCwiaWRlbnRpdHlLZXkiOiI2MDQ2NTExNDAwNjMzMDEiLCJuYmYiOjE3MzY1NjAzNjR9.gBWu2eTYqtVa-3udi0Rv4n6pWsyBuR3_Ya68OWeca4E"
+                    "access-token": uni.getStorageSync("access-token") || "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MzY5NTg3OTcsImlhdCI6MTczNjkyMjc5NywiaWRlbnRpdHlLZXkiOiI2MDQ2NTExNDAwNjMzMDEiLCJuYmYiOjE3MzY5MjI3OTd9.he5ELpTRPYQ9B26AdzOTUqQnGmwTv8P47rgeVNkg1Fg"
                   }
                 });
               case 13:
@@ -339,7 +311,7 @@ var _default = {
                 throw new Error("获取的上传链接无效");
               case 22:
                 // Step 2: 上传封面图
-                fileData = uni.getFileSystemManager().readFileSync(_this2.coverImage);
+                fileData = uni.getFileSystemManager().readFileSync(_this2.coverSrc);
                 _context2.next = 25;
                 return uni.request({
                   url: coverUploadURL,
@@ -397,29 +369,30 @@ var _default = {
                     description: _this2.description
                   },
                   header: {
-                    "access-token": uni.getStorageSync("access-token") || "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MzY1OTYzNjQsImlhdCI6MTczNjU2MDM2NCwiaWRlbnRpdHlLZXkiOiI2MDQ2NTExNDAwNjMzMDEiLCJuYmYiOjE3MzY1NjAzNjR9.gBWu2eTYqtVa-3udi0Rv4n6pWsyBuR3_Ya68OWeca4E"
+                    "access-token": uni.getStorageSync("access-token") || "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MzY5NTg3OTcsImlhdCI6MTczNjkyMjc5NywiaWRlbnRpdHlLZXkiOiI2MDQ2NTExNDAwNjMzMDEiLCJuYmYiOjE3MzY5MjI3OTd9.he5ELpTRPYQ9B26AdzOTUqQnGmwTv8P47rgeVNkg1Fg"
                   }
                 });
-                _context2.next = 49;
+                goBack();
+                _context2.next = 50;
                 break;
-              case 45:
-                _context2.prev = 45;
+              case 46:
+                _context2.prev = 46;
                 _context2.t0 = _context2["catch"](10);
                 console.error("上传失败:", _context2.t0);
                 uni.showToast({
                   title: _context2.t0.message || "上传失败",
                   icon: "none"
                 });
-              case 49:
-                _context2.prev = 49;
+              case 50:
+                _context2.prev = 50;
                 uni.hideLoading();
-                return _context2.finish(49);
-              case 52:
+                return _context2.finish(50);
+              case 53:
               case "end":
                 return _context2.stop();
             }
           }
-        }, _callee2, null, [[10, 45, 49, 52]]);
+        }, _callee2, null, [[10, 46, 50, 53]]);
       }))();
     }
   }

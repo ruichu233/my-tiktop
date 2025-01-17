@@ -1,70 +1,20 @@
 
 .container.data-v-d3badb08 {
-	padding: 40px;
+	padding: 80rpx;
 	max-width: 600px;
 	/* 设置最大宽度 */
 	margin: 0 auto;
 	/* 水平居中 */
 }
-
-/* 返回按钮样式 */
-.back-button.data-v-d3badb08 {
-	position: absolute;
-	top: 20px;
-	left: 20px;
-	padding: 10px 15px;
-	background-color: #007aff;
-	color: white;
-	border-radius: 50px;
-	font-size: 16px;
-	display: flex;
-	align-items: center;
-	cursor: pointer;
-	transition: background-color 0.3s;
-}
-.back-button.data-v-d3badb08:hover {
-	background-color: #005bb5;
-}
 .header.data-v-d3badb08 {
 	font-size: 18px;
 	font-weight: bold;
-	margin-bottom: 20px;
+	margin-bottom: 20rpx;
 	text-align: center;
-}
-.title-section.data-v-d3badb08 {
-	margin-bottom: 20px;
-	/* 统一使用margin-bottom设置间距 */
-}
-.title-section input.data-v-d3badb08 {
-	width: 100%;
-	height: 40px;
-	border-radius: 8px;
-	padding: 10px;
-	background-color: #f2f2f2;
-	transition: all 0.3s ease;
-	/* 添加过渡效果用于聚焦时的样式变化 */
-}
-.title-section input.data-v-d3badb08:focus {
-	border-color: #007aff;
-	/* 聚焦时边框颜色改变 */
-	box-shadow: 0 0 5px rgba(0, 122, 255, 0.5);
-	/* 聚焦时添加阴影 */
-}
-.title-section input.data-v-d3badb08::-webkit-input-placeholder {
-	color: #999;
-	/* 占位符文本颜色 */
-	font-size: 14px;
-	/* 占位符文本字体大小 */
-}
-.title-section input.data-v-d3badb08::placeholder {
-	color: #999;
-	/* 占位符文本颜色 */
-	font-size: 14px;
-	/* 占位符文本字体大小 */
 }
 .video-section.data-v-d3badb08 {
 	width: 100%;
-	height: 250px;
+	height: 230px;
 	background-color: #f2f2f2;
 	border-radius: 8px;
 	display: flex;
@@ -119,71 +69,6 @@ to {
 	color: #888;
 	font-size: 16px;
 }
-.cover-section.data-v-d3badb08 {
-	margin-bottom: 20px;
-	/* 统一使用margin-bottom设置间距 */
-}
-.cover-preview.data-v-d3badb08 {
-	width: 100%;
-	height: 150px;
-	margin-top: 10px;
-	border-radius: 8px;
-	border: 1px solid #ddd;
-	/* 添加边框 */
-	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-	/* 添加阴影 */
-	overflow: hidden;
-	/* 确保图片不会超出边界 */
-	position: relative;
-	/* 为遮罩设置定位 */
-}
-.cover-preview.data-v-d3badb08::before {
-	content: "";
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	background-color: rgba(0, 0, 0, 0.3);
-	opacity: 1;
-	transition: opacity 0.3s ease;
-	/* 添加过渡效果用于遮罩显示隐藏 */
-}
-.cover-preview.data-v-d3badb08:hover::before {
-	opacity: 0;
-	/* 鼠标悬停时隐藏遮罩 */
-}
-.description-section.data-v-d3badb08 {
-	margin-bottom: 20px;
-	/* 统一使用margin-bottom设置间距 */
-}
-textarea.data-v-d3badb08 {
-	width: 100%;
-	height: 80px;
-	border-radius: 8px;
-	padding: 10px;
-	background-color: #f2f2f2;
-	transition: all 0.3s ease;
-	/* 添加过渡效果用于聚焦时的样式变化 */
-}
-textarea.data-v-d3badb08:focus {
-	border-color: #007aff;
-	/* 聚焦时边框颜色改变 */
-	box-shadow: 0 0 5px rgba(0, 122, 255, 0.5);
-	/* 聚焦时添加阴影 */
-}
-textarea.data-v-d3badb08::-webkit-input-placeholder {
-	color: #999;
-	/* 占位符文本颜色 */
-	font-size: 14px;
-	/* 占位符文本字体大小 */
-}
-textarea.data-v-d3badb08::placeholder {
-	color: #999;
-	/* 占位符文本颜色 */
-	font-size: 14px;
-	/* 占位符文本字体大小 */
-}
 button.data-v-d3badb08 {
 	transition: all 0.3s ease;
 	/* 添加过渡效果用于悬停时的样式变化 */
@@ -196,7 +81,8 @@ button.data-v-d3badb08:hover {
 	/* 悬停时添加阴影 */
 }
 .upload-button.data-v-d3badb08 {
-	margin-top: 30px;
+	margin-top: 30rpx;
+	margin-bottom:30rpx;
 	width: 100%;
 }
 

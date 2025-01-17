@@ -9,12 +9,12 @@
 			
 		</view>
 		<view class="number">
-			{{item.loveNumber}}
+			{{item.like_count}}
 		</view>
 		<view class="iconfont icontubiaozhizuo-  right-box" @click="openComment">
 		</view>
 		<view class="number">
-			{{item.commentNumber}}
+			{{item.comment_count}}
 		</view>
 		<view class="iconfont iconfenxiang right-box">
 		</view>

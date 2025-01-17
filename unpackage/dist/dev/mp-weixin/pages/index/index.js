@@ -137,10 +137,12 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 /* WEBPACK VAR INJECTION */(function(uni) {
 
+var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ 4);
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = void 0;
+var _slicedToArray2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/slicedToArray */ 5));
 var tab = function tab() {
   __webpack_require__.e(/*! require.ensure | components/tab */ "components/tab").then((function () {
     return resolve(__webpack_require__(/*! ../../components/tab.vue */ 206));
@@ -173,19 +175,25 @@ var _default = {
   methods: {
     getData: function getData() {
       var _this = this;
-      uni.request({
-        url: "http://127.0.0.1:8080/api/v1/video/video-list/",
-        data: {
-          page: 10,
-          cursor: 0,
-          feed_type: 1
-        },
-        method: 'POST',
-        header: {},
-        success: function success(res) {
-          _this.list = res.data.list;
-        }
-      });
+      var _uni$request = uni.request({
+          url: "http://127.0.0.1:8080/v1/video/video-list",
+          data: {
+            page: 10,
+            cursor: 0,
+            feed_type: 2
+          },
+          method: 'POST',
+          header: {
+            "access-token": uni.getStorageSync("access-token")
+          },
+          success: function success(res) {
+            _this.list = res.data.data.video_list;
+            console.log(_this.list);
+          }
+        }),
+        _uni$request2 = (0, _slicedToArray2.default)(_uni$request, 2),
+        err = _uni$request2[0],
+        videoListResp = _uni$request2[1];
     }
   }
 };

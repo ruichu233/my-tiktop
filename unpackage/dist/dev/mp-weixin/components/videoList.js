@@ -122,22 +122,22 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = void 0;
 var videoPlayer = function videoPlayer() {
   __webpack_require__.e(/*! require.ensure | components/videoPlayer */ "components/videoPlayer").then((function () {
-    return resolve(__webpack_require__(/*! ./videoPlayer.vue */ 308));
+    return resolve(__webpack_require__(/*! ./videoPlayer.vue */ 322));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var listLeft = function listLeft() {
   __webpack_require__.e(/*! require.ensure | components/listLeft */ "components/listLeft").then((function () {
-    return resolve(__webpack_require__(/*! ./listLeft.vue */ 315));
+    return resolve(__webpack_require__(/*! ./listLeft.vue */ 329));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var listRight = function listRight() {
   __webpack_require__.e(/*! require.ensure | components/listRight */ "components/listRight").then((function () {
-    return resolve(__webpack_require__(/*! ./listRight.vue */ 322));
+    return resolve(__webpack_require__(/*! ./listRight.vue */ 336));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var comment = function comment() {
   __webpack_require__.e(/*! require.ensure | components/comment */ "components/comment").then((function () {
-    return resolve(__webpack_require__(/*! ./comment.vue */ 329));
+    return resolve(__webpack_require__(/*! ./comment.vue */ 343));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var time = null;

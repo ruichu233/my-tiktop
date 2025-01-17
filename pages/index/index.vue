@@ -27,19 +27,21 @@
 		},
 		methods: {
 			getData() {
-				uni.request({
-					url: "http://127.0.0.1:8080/api/v1/video/video-list/",
+				const[err,videoListResp] = uni.request({
+					url: "http://127.0.0.1:8080/v1/video/video-list",
 					data: {
 						page: 10,
 						cursor: 0,
-						feed_type: 1
+						feed_type: 2
 					},
 					method: 'POST',
-					header: {},
+					header: {
+						"access-token": uni.getStorageSync("access-token")
+					},
 					success: (res) => {
-						this.list = res.data.list
+						this.list = res.data.data.video_list
+						console.log(this.list)
 					}
-
 				})
 			}
 		}
