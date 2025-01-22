@@ -6,31 +6,20 @@
 		<image class="img-b" src="https://zhoukaiwen.com/img/loginImg/3.png"></image>
 		<!-- 标题 -->
 		<view class="t-b">{{ title }}</view>
-		<view class="t-b2">欢迎使用，XXX小程序</view>
+		<view class="t-b2">欢迎使用，xxx小程序</view>
 		<form class="cl">
 			<view class="t-a">
-				<image src="https://zhoukaiwen.com/img/loginImg/sj.png"></image>
+				<image src="https://zhoukaiwen.com/img/loginImg/yx.png"></image>
 				<view class="line"></view>
-				<input type="number" name="phone" placeholder="请输入手机号" maxlength="11" v-model="phone" />
+				<input type="number" name="email" placeholder="请输入邮箱号" v-model="email" />
 			</view>
 			<view class="t-a">
 				<image src="https://zhoukaiwen.com/img/loginImg/yz.png"></image>
 				<view class="line"></view>
-				<input type="number" name="code" maxlength="6" placeholder="请输入验证码" v-model="yzm" />
-				<view v-if="showText" class="t-c" @tap="getCode()">发送短信</view>
-				<view v-else class="t-c" style="background-color: #A7A7A7;">重新发送({{ second }})</view>
+				<input type="number" name="password" placeholder="请输入密码" v-model="password" />
 			</view>
 			<button @tap="login()">登 录</button>
 		</form>
-		<!-- <view class="t-f"><text>————— 第三方账号登录 —————</text></view>
-		<view class="t-e cl">
-			<view class="t-g" @tap="wxLogin()">
-				<image src="https://zhoukaiwen.com/img/loginImg/wx.png"></image>
-			</view>
-			<view class="t-g" @tap="zfbLogin()">
-				<image src="https://zhoukaiwen.com/img/loginImg/qq.png"></image>
-			</view>
-		</view> -->
 	</view>
 </template>
 <script>
@@ -38,10 +27,8 @@
 		data() {
 			return {
 				title: '欢迎回来！', //填写logo或者app名称，也可以用：欢迎回来，看您需求
-				second: 60, //默认60秒
-				showText: true, //判断短信是否发送
-				phone: '', //手机号码
-				yzm: '' //验证码
+				email: '', //邮箱号
+				password: '' //密码
 			};
 		},
 		onLoad() {},
@@ -49,67 +36,38 @@
 			//当前登录按钮操作
 			login() {
 				var that = this;
-				if (!that.phone) {
+				if (!that.email) {
 					uni.showToast({
-						title: '请输入手机号',
+						title: '请输入邮箱号',
 						icon: 'none'
 					});
 					return;
 				}
-				if (!/^[1][3,4,5,7,8,9][0-9]{9}$/.test(that.phone)) {
+				if (!that.password) {
 					uni.showToast({
-						title: '请输入正确手机号',
-						icon: 'none'
-					});
-					return;
-				}
-				if (!that.yzm) {
-					uni.showToast({
-						title: '请输入验证码',
+						title: '请输入密码',
 						icon: 'none'
 					});
 					return;
 				}
 				//....此处省略，这里需要调用后台验证一下验证码是否正确，根据您的需求来
+				uni.request({
+					url:"",
+					method:"POST",
+					data:{
+						
+					},
+					success() {
+						
+					},
+					fail() {
+						uni.showToast({
+							
+						})
+					}
+				})
 				uni.showToast({
 					title: '登录成功！',
-					icon: 'none'
-				});
-			},
-			//获取短信验证码
-			getCode() {
-				var that = this;
-				var interval = setInterval(() => {
-					that.showText = false;
-					var times = that.second - 1;
-					//that.second = times<10?'0'+times:times ;//小于10秒补 0
-					that.second = times;
-					console.log(times);
-				}, 1000);
-				setTimeout(() => {
-					clearInterval(interval);
-					that.second = 60;
-					that.showText = true;
-				}, 60000);
-				//这里请求后台获取短信验证码
-				uni.request({
-					//......//此处省略
-					success: function(res) {
-						that.showText = false;
-					}
-				});
-			},
-			//等三方微信登录
-			wxLogin() {
-				uni.showToast({
-					title: '微信登录',
-					icon: 'none'
-				});
-			},
-			//第三方支付宝登录
-			zfbLogin() {
-				uni.showToast({
-					title: '支付宝登录',
 					icon: 'none'
 				});
 			}

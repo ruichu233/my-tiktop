@@ -36,5 +36,5 @@
 </script>
 
 <style>
-.city{width: 100%;height: 100%;background: #000000;}
+.city{width: 100%;height: 100vh;background: #000000;}
 </style>

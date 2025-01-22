@@ -4,13 +4,10 @@
 		</view>
 		<personal-info :pages="pages" @change="change"></personal-info>
 		<view class="" v-show="show==='作品'">
-			<personal-list ></personal-list>
+			<personal-list :videoList="list" ></personal-list>
 		</view>
 		<view class="" v-show="show==='喜欢'">
 			<personal-list ></personal-list>
-		</view>
-		<view class="" v-show="show==='动态'">
-			<follow-list  :list="list"></follow-list>
 		</view>
 	</view>
 </template>
@@ -35,10 +32,14 @@
 		methods: {
 			getVideoInfo(){
 				uni.request({
-					url:'http://192.168.10.59:80/api/videos.json',
+					url:'http://127.0.0.1:8080/api/videos.json',
+					method:"POST",
+					data:{
+						
+					},
 					success: (res) => {
 						this.list=res.data.list
-					}
+					} 
 				})
 			},
 			change(res){

@@ -63,6 +63,7 @@
 		},
 		methods:{
 			changeClick(){
+				console.log("点赞")
 				//点赞，调用listRight方法
 				this.$refs.right[0].change()
 			},

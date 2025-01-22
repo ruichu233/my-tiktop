@@ -7,9 +7,6 @@
 		<view class="" v-show="show==='喜欢'">
 			<personal-list ></personal-list>
 		</view>
-		<view class="" v-show="show==='动态'">
-			<follow-list  :list="list"></follow-list>
-		</view>
 		<tab></tab>
 	</view>
 </template>
@@ -57,7 +54,7 @@
 <style>
 .personal{
 	width: 100%;
-	height: 100%;
+	height: 100vh;
 	background: #000000;
 }
 </style>
