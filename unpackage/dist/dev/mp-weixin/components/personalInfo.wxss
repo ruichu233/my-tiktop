@@ -1,86 +1,120 @@
 
-.personalInfo.data-v-9711da6e{
-	width:100%;
+.menu-button.data-v-9711da6e {
+	width: 40px;
+	height: 40px;
+	background-color: #ccc;
+	border-radius: 50%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin: 10px;
+	cursor: pointer;
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	z-index: 10;
+	/* 设置较高的z-index值 */
+}
+.menu.data-v-9711da6e {
+  position: absolute;
+  top: 50px;
+  right: 10px;
+  background-color: #000;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  z-index: 100; /* 确保菜单在最上层 */
+}
+.menu-item.data-v-9711da6e {
+  padding: 10px;
+  color: #fff;
+  cursor: pointer;
+}
+.menu-item.data-v-9711da6e:hover {
+  background-color: #333;
+}
+.personalInfo.data-v-9711da6e {
+	width: 100%;
 	background: #000000;
 	position: relative;
 }
-.background-img-box.data-v-9711da6e{
+.background-img-box.data-v-9711da6e {
 	width: 100%;
 	padding: 0 2rpx;
-	z-index:19;
+	z-index: 19;
 }
-.background-img.data-v-9711da6e{
+.background-img.data-v-9711da6e {
 	width: 100%;
 	height: 360rpx;
 }
-.top.data-v-9711da6e{
-	width:100%;
-	position:absolute;
-	top:280rpx;
-	left:0;
-	z-index:20;
-	background:#000000;
-	height:120rpx;
+.top.data-v-9711da6e {
+	width: 100%;
+	position: absolute;
+	top: 280rpx;
+	left: 0;
+	z-index: 20;
+	background: #000000;
+	height: 120rpx;
 }
-.personal-img-box.data-v-9711da6e{
-	margin:-50rpx 0 0 60rpx;
+.personal-img-box.data-v-9711da6e {
+	margin: -50rpx 0 0 60rpx;
 }
-.personal-img.data-v-9711da6e{
-	width:160rpx;
-	height:160rpx;
-	border-radius:50%;
-	z-index:20;
-	border:7rpx solid #000000;
+.personal-img.data-v-9711da6e {
+	width: 160rpx;
+	height: 160rpx;
+	border-radius: 50%;
+	z-index: 20;
+	border: 7rpx solid #000000;
 }
-.change.data-v-9711da6e{
-	position:absolute;
-	top:30rpx;
-	right:50rpx;
-	width:55%;
-	height:70rpx;
-	line-height:70rpx;
-	font-size:32rpx;
-	text-align:center;
-	background:#333333;
-	border-radius:4rpx;
-	color:#ffffff;
+.change.data-v-9711da6e {
+	position: absolute;
+	top: 30rpx;
+	right: 50rpx;
+	width: 55%;
+	height: 70rpx;
+	line-height: 70rpx;
+	font-size: 32rpx;
+	text-align: center;
+	background: #333333;
+	border-radius: 4rpx;
+	color: #ffffff;
 }
-.name-box.data-v-9711da6e{
-	padding:0 50rpx;
-	color:#EEEEEE;
-	z-index:20;
-	margin-top:40rpx;
+.name-box.data-v-9711da6e {
+	padding: 0 50rpx;
+	color: #EEEEEE;
+	z-index: 20;
+	margin-top: 40rpx;
 }
-.name.data-v-9711da6e{
+.name.data-v-9711da6e {
 	height: 100rpx;
 	line-height: 100rpx;
-	font-size:52rpx;
+	font-size: 52rpx;
 }
-.douyinId.data-v-9711da6e{
+.douyinId.data-v-9711da6e {
 	height: 50rpx;
 	line-height: 50rpx;
 	font-size: 28rpx;
 }
-.text-box.data-v-9711da6e{
-	z-index:20;
-	padding:0 50rpx;
+.text-box.data-v-9711da6e {
+	z-index: 20;
+	padding: 0 50rpx;
 	margin-top: 16rpx;
 	border-top: 2rpx solid #222222;
 }
-.introduce.data-v-9711da6e{
+.introduce.data-v-9711da6e {
 	height: 60rpx;
 	line-height: 60rpx;
 	font-size: 30rpx;
 	color: #EEEEEE;
 }
-.label-box.data-v-9711da6e{
+.label-box.data-v-9711da6e {
 	width: 100%;
 	height: 50rpx;
 	margin-top: 10rpx;
 	line-height: 50rpx;
 	color: #EEEEEE;
 }
-.label.data-v-9711da6e{
+.label.data-v-9711da6e {
 	height: 40rpx;
 	padding: 0 10rpx;
 	line-height: 40rpx;
@@ -91,48 +125,48 @@
 	border-radius: 3rpx;
 	margin-right: 20rpx;
 }
-.number-box.data-v-9711da6e{
+.number-box.data-v-9711da6e {
 	width: 100%;
 	height: 100rpx;
 	line-height: 100rpx;
 }
-.box.data-v-9711da6e{
+.box.data-v-9711da6e {
 	height: 80rpx;
 	line-height: 80rPX;
 	float: left;
 	margin-right: 25rpx;
 }
-.number.data-v-9711da6e{
+.number.data-v-9711da6e {
 	color: #FFFFFF;
 	font-size: 30rpx;
 }
-.number-text.data-v-9711da6e{
+.number-text.data-v-9711da6e {
 	color: #999999;
 	font-size: 26rpx;
-	width:200rpx;
+	width: 200rpx;
 }
-.add-box.data-v-9711da6e{
+.add-box.data-v-9711da6e {
 	margin: 0 6%;
-	height:80rpx;
+	height: 80rpx;
 	line-height: 80rpx;
 	background: #333333;
 	border-radius: 6rpx;
 	text-align: center;
 	color: #FFFFFF;
 }
-.add.data-v-9711da6e{
+.add.data-v-9711da6e {
 	padding-left: 10rpx;
 	font-size: 26rpx;
 }
-.option-box.data-v-9711da6e{
+.option-box.data-v-9711da6e {
 	width: 100%;
-	height:10rpx;
+	height: 10rpx;
 	line-height: 100rpx;
 	margin-bottom: 20rpx;
 }
-.option.data-v-9711da6e{
+.option.data-v-9711da6e {
 	width: 33%;
-	height:100rpx;
+	height: 100rpx;
 	line-height: 100rpx;
 	color: #999999;
 	float: left;

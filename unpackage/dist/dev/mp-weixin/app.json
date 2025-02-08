@@ -1,11 +1,14 @@
 {
   "pages": [
     "pages/index/index",
-    "pages/city/city",
-    "pages/changeCity/changeCity",
+    "pages/friend/friend",
     "pages/news/news",
     "pages/personal/personal",
-    "pages/uploadVideo/uploadVideo"
+    "pages/uploadVideo/uploadVideo",
+    "pages/login/login",
+    "pages/user/user",
+    "pages/follow/follow",
+    "pages/chat/chat"
   ],
   "subPackages": [],
   "window": {
@@ -21,7 +24,7 @@
         "pagePath": "pages/index/index"
       },
       {
-        "pagePath": "pages/city/city"
+        "pagePath": "pages/friend/friend"
       },
       {
         "pagePath": "pages/news/news"

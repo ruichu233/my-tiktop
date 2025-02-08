@@ -113,7 +113,7 @@
 						data: {}, // 可传递必要的参数
 						header: {
 							"access-token": uni.getStorageSync("access-token") ||
-								"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MzY5NTg3OTcsImlhdCI6MTczNjkyMjc5NywiaWRlbnRpdHlLZXkiOiI2MDQ2NTExNDAwNjMzMDEiLCJuYmYiOjE3MzY5MjI3OTd9.he5ELpTRPYQ9B26AdzOTUqQnGmwTv8P47rgeVNkg1Fg",
+								"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3Mzc1NDUyNjksImlhdCI6MTczNzUwOTI2OSwiaWRlbnRpdHlLZXkiOiI2MDQ2NTExNDAwNjMzMDEiLCJuYmYiOjE3Mzc1MDkyNjl9.8F-pCGx1GBZjM6rzdaOyP2DFdywO7QOFd8qSSkJdbuA",
 						},
 					});
 
@@ -178,12 +178,12 @@
 						},
 						header: {
 							"access-token": uni.getStorageSync("access-token") ||
-								"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MzY5NTg3OTcsImlhdCI6MTczNjkyMjc5NywiaWRlbnRpdHlLZXkiOiI2MDQ2NTExNDAwNjMzMDEiLCJuYmYiOjE3MzY5MjI3OTd9.he5ELpTRPYQ9B26AdzOTUqQnGmwTv8P47rgeVNkg1Fg",
+								"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3Mzc1NDUyNjksImlhdCI6MTczNzUwOTI2OSwiaWRlbnRpdHlLZXkiOiI2MDQ2NTExNDAwNjMzMDEiLCJuYmYiOjE3Mzc1MDkyNjl9.8F-pCGx1GBZjM6rzdaOyP2DFdywO7QOFd8qSSkJdbuA",
 						}
 					})
 
 
-					goBack()
+					this.goBack()
 				} catch (err) {
 					console.error("上传失败:", err);
 					uni.showToast({

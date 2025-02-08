@@ -7,15 +7,9 @@
 			}
 		},
 		{
-			"path": "pages/city/city",
+			"path": "pages/friend/friend",
 			"style": {
-				"navigationBarTitleText": "同城"
-			}
-		},
-		{
-			"path": "pages/changeCity/changeCity",
-			"style": {
-				"navigationBarTitleText": ""
+				"navigationBarTitleText": "朋友"
 			}
 		},
 		{
@@ -56,6 +50,13 @@
 			{
 				"navigationBarTitleText" : ""
 			}
+		},
+		{
+			"path" : "pages/chat/chat",
+			"style" : 
+			{
+				"navigationBarTitleText" : ""
+			}
 		}
 	],
 	"globalStyle": {
@@ -68,7 +69,7 @@
 	"tabBar":{
 			"list":[
 			{"pagePath":"pages/index/index"},
-			{"pagePath":"pages/city/city"},
+			{"pagePath":"pages/friend/friend"},
 			{"pagePath":"pages/news/news"},
 			{"pagePath":"pages/personal/personal"}
 		]

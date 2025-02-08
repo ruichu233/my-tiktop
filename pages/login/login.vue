@@ -6,12 +6,12 @@
 		<image class="img-b" src="https://zhoukaiwen.com/img/loginImg/3.png"></image>
 		<!-- 标题 -->
 		<view class="t-b">{{ title }}</view>
-		<view class="t-b2">欢迎使用，xxx小程序</view>
+		<view class="t-b2">欢迎使用，小程序</view>
 		<form class="cl">
 			<view class="t-a">
-				<image src="https://zhoukaiwen.com/img/loginImg/yx.png"></image>
+				<image></image>
 				<view class="line"></view>
-				<input type="number" name="email" placeholder="请输入邮箱号" v-model="email" />
+				<input type="text" name="email" placeholder="请输入邮箱号" v-model="email" />
 			</view>
 			<view class="t-a">
 				<image src="https://zhoukaiwen.com/img/loginImg/yz.png"></image>
@@ -58,7 +58,12 @@
 						
 					},
 					success() {
-						
+						// 存token
+						uni.setStorageSync("access-token",this.data.data.token)
+						uni.showToast({
+							title: '登录成功！',
+							icon: 'none'
+						});
 					},
 					fail() {
 						uni.showToast({
@@ -66,10 +71,7 @@
 						})
 					}
 				})
-				uni.showToast({
-					title: '登录成功！',
-					icon: 'none'
-				});
+				
 			}
 		}
 	};

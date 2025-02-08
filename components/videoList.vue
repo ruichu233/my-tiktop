@@ -1,35 +1,26 @@
 <template>
 	<view class="videoList">
 		<view class="swiper-box">
-			<swiper 
-			class="swiper"  
-			:vertical="true" 
-			@change="change"
-			@touchstart="touchStart"
-			@touchend="touchEnd"
-			>
+			<swiper class="swiper" :vertical="true" @change="change" @touchstart="touchStart" @touchend="touchEnd">
 				<swiper-item v-for="(item,index) of videos" :key="item.id">
 					<view class="swiper-item" style="color:#000000">
-						<videoPlayer 
-						@changeClick="changeClick" 
-						ref="player" 
-						:video="item"
-						:index="index"
-						>
+						<videoPlayer @changeClick="changeClick" ref="player" :video="item" :index="index">
 						</videoPlayer>
 					</view>
 					<view class="left-box">
 						<listLeft :item="item"></listLeft>
 					</view>
 					<view class="right-box">
-						<listRight @open="openComment" :item="item" ref="right"></listRight>
+						<listRight @open="openComment(item.video_id)" :item="item" ref="right"></listRight>
+					</view>
+					<view v-show="show" class="comment-box">
+						<zwz-comment :comments="comments" @comment-like="commentLike" @send-comment="commentSend" v-model="value"
+							@lower="lower" @reply="reply" @close="close" :objId="item.video_id" :authorId="item.author_id"></zwz-comment>
 					</view>
 				</swiper-item>
 			</swiper>
 		</view>
-		<view v-show="show" class="comment-box">
-			<comment @close="close"></comment>
-		</view>
+		
 	</view>
 </template>
 
@@ -38,111 +29,181 @@
 	import listLeft from './listLeft.vue'
 	import listRight from './listRight.vue'
 	import comment from './comment.vue'
-	var time=null
+	var time = null
 	export default {
-		props:['list'],
-		components:{
+		props: ['list'],
+		components: {
 			videoPlayer,
 			listLeft,
 			listRight,
-			comment
+			comment,
 		},
 		data() {
 			return {
-				videos:[],
-				pageStartY:0,
-				pageEndY:0,
-				page:0,
-				show:false
-			};
+				videos: [],
+				pageStartY: 0,
+				pageEndY: 0,
+				page: 0,
+				show: false,
+				value: "",
+				comments: []
+			}
+
 		},
-		watch:{
-			list(){
-				this.videos=this.list
+		watch: {
+			list() {
+				this.videos = this.list
 			}
 		},
-		methods:{
-			changeClick(){
+		methods: {
+			changeClick() {
 				console.log("点赞")
 				//点赞，调用listRight方法
 				this.$refs.right[0].change()
 			},
-			change(res){
+			change(res) {
 				clearTimeout(time)
-				this.page=res.detail.current
-				time=setTimeout(()=>{
-					if(this.pageStartY<this.pageEndY){
+				this.page = res.detail.current
+				time = setTimeout(() => {
+					if (this.pageStartY < this.pageEndY) {
 						this.$refs.player[this.page].player()
-						this.$refs.player[this.page+1].pause()
-						this.pageStartY=0
-						this.pageEndY=0
-					}else{
+						this.$refs.player[this.page + 1].pause()
+						this.pageStartY = 0
+						this.pageEndY = 0
+					} else {
 						this.$refs.player[this.page].player()
-						this.$refs.player[this.page-1].pause()
-						this.pageStartY=0
-						this.pageEndY=0
+						this.$refs.player[this.page - 1].pause()
+						this.pageStartY = 0
+						this.pageEndY = 0
 					}
-				},1)
-				
+				}, 1)
+
 			},
-			touchStart(res){
-				this.pageStartY=res.changedTouches[0].pageY
-				
+			touchStart(res) {
+				this.pageStartY = res.changedTouches[0].pageY
+
 			},
-			touchEnd(res){
-				this.pageEndY=res.changedTouches[0].pageY
-				
+			touchEnd(res) {
+				this.pageEndY = res.changedTouches[0].pageY
+
 			},
-			openComment(){
-				if(this.show===false){
-					this.show=true
+			getCommentList(videoId){
+				uni.request({
+					url:"http://127.0.0.1:8080/v1/comment/comment-list",
+					method:'POST',
+					header:{
+						"access-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MzkwMTY1NTQsImlhdCI6MTczODk4MDU1NCwiaWRlbnRpdHlLZXkiOiI2MDQ2NTExNDAwNjMzMDEiLCJuYmYiOjE3Mzg5ODA1NTR9.7XPQK8ZbQLW6T9YVkl4TSlGtNSn69wJCOwBndqodBmQ"
+					},
+					data:{
+						"video_id":videoId,
+					},
+					success: (res) => {
+						console.log(res.data)
+						this.comments = res.data.comment_list
+					}
+				})
+			},
+			openComment(videoId) {
+				if (this.show === false) {
+					this.show = true
+				}
+				this.getCommentList(videoId);
+			},
+			close() {
+				if (this.show === true) {
+					this.show = false
 				}
 			},
-			close(){
-				if(this.show===true){
-					this.show=false
-				}
-			}
-		},
-		
+			commentLike(e) {
+				console.log('返回点击的评论信息', e);
+			},
+			commentSend(superCommentId,video_id,beReplayUserId) {
+				console.log(superCommentId,video_id,beReplayUserId)
+				uni.request({
+					url:"http://127.0.0.1:8080/v1/comment/commment-publish",
+					method:'POST',
+					header:{
+						"access-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MzkwMTY1NTQsImlhdCI6MTczODk4MDU1NCwiaWRlbnRpdHlLZXkiOiI2MDQ2NTExNDAwNjMzMDEiLCJuYmYiOjE3Mzg5ODA1NTR9.7XPQK8ZbQLW6T9YVkl4TSlGtNSn69wJCOwBndqodBmQ"
+						},
+					data:{
+						"video_id":video_id,
+						"content":this.value,
+						"superCommentId":superCommentId,
+						"beReplayUserId":beReplayUserId
+					},
+					success: (res) => {
+						console.log(res)
+					},
+				});
+				console.log(this.value)
+				this.value = '';
+				this.getCommentList(video_id);
+				
+			},
+			lower() {
+				console.log('到底了');
+			},
+			reply(index, id, userNickName, reply) {
+				console.log(index, id, userNickName, reply);
+				// index: 回复的顶级评论的索引
+				// id： 回复的顶级评论的id
+				// ueserNickName: 上级评论的用户名
+				// reply： 回复评论的全部信息
+			},
+		}
 	}
 </script>
 
-<style>
-.videoList{
-	height:100%;
-	width: 100%;
-}
-.swiper-box{
-	height:100%;
-	width: 100%;
-}
-.swiper{
-	height:100%;
-	width: 100%;
-}
-.swiper-item{
-	height:100%;
-	width: 100%;
-}
-.left-box{
-	z-index:20;
-	position:absolute;
-	bottom: 125rpx;
-	left: 20rpx;
-}
-.right-box{
-	z-index:20;
-	position:absolute;
-	bottom: 50px;
-	right: 10px;
-}
-.comment-box{
-	position:fixed;
-	bottom:0 ;
-	left: 0;
-	z-index:22;
-	height: 500px;
-	width: 100%;
-}
+<style style lang="scss" scoped>
+	.videoList {
+		height: 100%;
+		width: 100%;
+	}
+
+	.swiper-box {
+		height: 100%;
+		width: 100%;
+	}
+
+	.swiper {
+		height: 100%;
+		width: 100%;
+	}
+
+	.swiper-item {
+		height: 100%;
+		width: 100%;
+	}
+
+	.left-box {
+		z-index: 20;
+		position: absolute;
+		bottom: 125rpx;
+		left: 20rpx;
+	}
+
+	.right-box {
+		z-index: 20;
+		position: absolute;
+		bottom: 50px;
+		right: 10px;
+	}
+
+	.comment-box {
+		position: fixed;
+		bottom: 0;
+		left: 0;
+		z-index: 22;
+		height: 500px;
+		width: 100%;
+	}
+
+	.btn {
+		text-align: center;
+		color: #fff;
+		padding: 20rpx;
+		margin: 20rpx;
+		border-radius: 20rpx;
+		background-color: #2979ff;
+	}
 </style>

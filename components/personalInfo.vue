@@ -1,5 +1,13 @@
 	<template>
 		<view class="personalInfo">
+			<!-- 右上角的按钮 -->
+			<view class="menu-button" @click="toggleMenu">
+				<text>☰</text>
+			</view>
+			<!-- 弹出菜单 -->
+			<view v-if="showMenu" class="menu">
+				<view class="menu-item" @click="logout">退出登录</view>
+			</view>
 			<view class="background-img-box">
 				<image class="background-img" src="../static/img/background.jpg" mode=""></image>
 			</view>
@@ -74,10 +82,22 @@
 					style3: '',
 					style4: 'background:red',
 					changeContent: "关注",
-					userInfo: null
+					userInfo: null,
+					showMenu:false
 				};
 			},
 			methods: {
+				toggleMenu() {
+				      this.showMenu = !this.showMenu;
+				    },
+				    logout() {
+				      // 退出登录的逻辑
+				      console.log('退出登录');
+				      // 这里可以添加实际的退出登录代码，例如清除本地存储的用户信息等
+					  uni.setStorageSync("access-token","")
+				      this.showMenu = false; // 关闭菜单
+					  this.$forceUpdate()
+				    },
 				click(res) {
 					console.log("click")
 					switch (res) {
@@ -120,6 +140,44 @@
 	</script>
 
 	<style scoped>
+		.menu-button {
+			width: 40px;
+			height: 40px;
+			background-color: #ccc;
+			border-radius: 50%;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			margin: 10px;
+			cursor: pointer;
+			position: absolute;
+			top: 10px;
+			right: 10px;
+			z-index: 10;
+			/* 设置较高的z-index值 */
+		}
+		
+		.menu {
+		  position: absolute;
+		  top: 50px;
+		  right: 10px;
+		  background-color: #000;
+		  border-radius: 10px;
+		  display: flex;
+		  flex-direction: column;
+		  z-index: 100; /* 确保菜单在最上层 */
+		}
+		
+		.menu-item {
+		  padding: 10px;
+		  color: #fff;
+		  cursor: pointer;
+		}
+		
+		.menu-item:hover {
+		  background-color: #333;
+		}
+
 		.personalInfo {
 			width: 100%;
 			background: #000000;

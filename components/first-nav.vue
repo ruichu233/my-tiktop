@@ -1,7 +1,6 @@
 <template>
 	<view class="firstNav">
 		<view class="iconfont iconsousuo icon">
-			
 		</view>
 		<view class="middle">
 			<navigator open-type="switchTab" class="text" url="/pages/recommend/recommend">

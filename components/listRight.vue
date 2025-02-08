@@ -6,12 +6,11 @@
 			</view>
 		</view>
 		<view class="iconfont iconaixin right-box" :style="color" @click="changeColor">
-			
 		</view>
 		<view class="number">
 			{{item.like_count}}
 		</view>
-		<view class="iconfont icontubiaozhizuo-  right-box" @click="openComment">
+		<view class="iconfont icontubiaozhizuo- right-box" @click="openComment">
 		</view>
 		<view class="number">
 			{{item.comment_count}}

@@ -3,8 +3,8 @@
 		<navigator open-type="switchTab" url="/pages/index/index" class="tab-box">
 			首页
 		</navigator>
-		<navigator open-type="switchTab" url="/pages/city/city" class="tab-box">
-			同城
+		<navigator open-type="switchTab" url="/pages/friend/friend" class="tab-box">
+			朋友
 		</navigator>
 
 		<view class="tab-box">

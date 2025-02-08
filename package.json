@@ -1,5 +1,11 @@
 {
-  "dependencies": {
-    "uview-ui": "^2.0.38"
-  }
+    "id": "zwz-comment",
+    "name": "zwz-comment",
+    "version": "1.0",
+    "description": "评论回复点赞",
+    "keywords": [
+        "评论",
+        "回复",
+        "点赞"
+    ]
 }

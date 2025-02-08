@@ -19274,7 +19274,141 @@ exports.default = _default;
 /* 225 */,
 /* 226 */,
 /* 227 */,
-/* 228 */,
+/* 228 */
+/*!******************************************!*\
+  !*** D:/my/my-tiktop/utils/websocket.js ***!
+  \******************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(uni) {
+
+var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ 4);
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+var _classCallCheck2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/classCallCheck */ 23));
+var _createClass2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/createClass */ 24));
+// utils/websocket.js
+var WebSocketManager = /*#__PURE__*/function () {
+  function WebSocketManager() {
+    (0, _classCallCheck2.default)(this, WebSocketManager);
+    this.socket = null;
+    this.listeners = {};
+    this.status = "closed";
+  }
+  (0, _createClass2.default)(WebSocketManager, [{
+    key: "connect",
+    value: function connect(url) {
+      var _this = this;
+      if (this.status === "connected") {
+        console.warn("WebSocket 已连接，请勿重复连接");
+        return;
+      }
+      this.status = "connecting";
+      this.socket = uni.connectSocket({
+        url: url,
+        success: function success() {
+          console.log("WebSocket 连接请求已发送");
+        },
+        fail: function fail(error) {
+          console.error("WebSocket 连接失败", error);
+          _this.status = "closed";
+        }
+      });
+      this.initEventHandlers();
+    }
+  }, {
+    key: "initEventHandlers",
+    value: function initEventHandlers() {
+      var _this2 = this;
+      uni.onSocketOpen(function () {
+        console.log("WebSocket 连接成功");
+        _this2.status = "connected";
+        _this2.triggerEvent("open");
+      });
+      uni.onSocketMessage(function (_ref) {
+        var data = _ref.data;
+        try {
+          var message = JSON.parse(decodeURIComponent(data));
+          _this2.triggerEvent("message", message);
+        } catch (err) {
+          console.error("消息解析失败", err);
+        }
+      });
+      uni.onSocketError(function (err) {
+        console.error("WebSocket 错误", err);
+        _this2.triggerEvent("error", err);
+      });
+      uni.onSocketClose(function () {
+        console.log("WebSocket 已关闭");
+        _this2.status = "closed";
+        _this2.triggerEvent("close");
+      });
+    }
+  }, {
+    key: "sendMessage",
+    value: function sendMessage(message) {
+      if (this.status !== "connected") {
+        console.error("WebSocket 未连接，无法发送消息");
+        return;
+      }
+      var payload = JSON.stringify(message);
+      uni.sendSocketMessage({
+        data: payload,
+        success: function success() {
+          console.log("消息发送成功", payload);
+        },
+        fail: function fail(err) {
+          console.error("消息发送失败", err);
+        }
+      });
+    }
+  }, {
+    key: "close",
+    value: function close() {
+      var _this3 = this;
+      if (this.status === "closed") {
+        console.warn("WebSocket 未连接，无需关闭");
+        return;
+      }
+      uni.closeSocket({
+        success: function success() {
+          console.log("WebSocket 连接已关闭");
+          _this3.status = "closed";
+        },
+        fail: function fail(err) {
+          console.error("关闭 WebSocket 失败", err);
+        }
+      });
+    }
+  }, {
+    key: "addListener",
+    value: function addListener(event, callback) {
+      if (!this.listeners[event]) {
+        this.listeners[event] = [];
+      }
+      this.listeners[event].push(callback);
+    }
+  }, {
+    key: "triggerEvent",
+    value: function triggerEvent(event) {
+      var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+      (this.listeners[event] || []).forEach(function (callback) {
+        return callback(data);
+      });
+    }
+  }]);
+  return WebSocketManager;
+}();
+var WebSocketInstance = new WebSocketManager();
+var _default = WebSocketInstance;
+exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
+
+/***/ }),
 /* 229 */,
 /* 230 */,
 /* 231 */,
@@ -19352,10 +19486,7 @@ exports.default = _default;
 /* 303 */,
 /* 304 */,
 /* 305 */,
-/* 306 */,
-/* 307 */,
-/* 308 */,
-/* 309 */
+/* 306 */
 /*!************************************************************************************!*\
   !*** ./node_modules/@dcloudio/vue-cli-plugin-uni/packages/uni-cloud/dist/index.js ***!
   \************************************************************************************/
@@ -19371,19 +19502,19 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = exports.UniCloudError = void 0;
 var _regenerator = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/regenerator */ 55));
-var _assertThisInitialized2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/assertThisInitialized */ 310));
+var _assertThisInitialized2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/assertThisInitialized */ 307));
 var _slicedToArray2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/slicedToArray */ 5));
 var _typeof2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/typeof */ 13));
 var _toConsumableArray2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/toConsumableArray */ 18));
 var _asyncToGenerator2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/asyncToGenerator */ 57));
 var _defineProperty2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/defineProperty */ 11));
-var _inherits2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/inherits */ 311));
-var _possibleConstructorReturn2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/possibleConstructorReturn */ 312));
-var _getPrototypeOf2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/getPrototypeOf */ 313));
-var _wrapNativeSuper2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/wrapNativeSuper */ 314));
+var _inherits2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/inherits */ 308));
+var _possibleConstructorReturn2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/possibleConstructorReturn */ 309));
+var _getPrototypeOf2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/getPrototypeOf */ 310));
+var _wrapNativeSuper2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/wrapNativeSuper */ 311));
 var _classCallCheck2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/classCallCheck */ 23));
 var _createClass2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/createClass */ 24));
-var _pages = _interopRequireDefault(__webpack_require__(/*! @/pages.json */ 316));
+var _pages = _interopRequireDefault(__webpack_require__(/*! @/pages.json */ 313));
 function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e33) { throw _e33; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e34) { didErr = true; err = _e34; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
@@ -19836,7 +19967,7 @@ var S = "development" === "development",
   x = true;
 var O = "";
 try {
-  O = (__webpack_require__(/*! uni-stat-config */ 317).default || __webpack_require__(/*! uni-stat-config */ 317)).appid;
+  O = (__webpack_require__(/*! uni-stat-config */ 314).default || __webpack_require__(/*! uni-stat-config */ 314)).appid;
 } catch (e) {}
 var E = {};
 function L(e) {
@@ -27397,7 +27528,7 @@ exports.default = Gs;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../../../webpack/buildin/global.js */ 3), __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"], __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/wx.js */ 1)["default"]))
 
 /***/ }),
-/* 310 */
+/* 307 */
 /*!**********************************************************************!*\
   !*** ./node_modules/@babel/runtime/helpers/assertThisInitialized.js ***!
   \**********************************************************************/
@@ -27413,7 +27544,7 @@ function _assertThisInitialized(self) {
 module.exports = _assertThisInitialized, module.exports.__esModule = true, module.exports["default"] = module.exports;
 
 /***/ }),
-/* 311 */
+/* 308 */
 /*!*********************************************************!*\
   !*** ./node_modules/@babel/runtime/helpers/inherits.js ***!
   \*********************************************************/
@@ -27440,7 +27571,7 @@ function _inherits(subClass, superClass) {
 module.exports = _inherits, module.exports.__esModule = true, module.exports["default"] = module.exports;
 
 /***/ }),
-/* 312 */
+/* 309 */
 /*!**************************************************************************!*\
   !*** ./node_modules/@babel/runtime/helpers/possibleConstructorReturn.js ***!
   \**************************************************************************/
@@ -27448,7 +27579,7 @@ module.exports = _inherits, module.exports.__esModule = true, module.exports["de
 /***/ (function(module, exports, __webpack_require__) {
 
 var _typeof = __webpack_require__(/*! ./typeof.js */ 13)["default"];
-var assertThisInitialized = __webpack_require__(/*! ./assertThisInitialized.js */ 310);
+var assertThisInitialized = __webpack_require__(/*! ./assertThisInitialized.js */ 307);
 function _possibleConstructorReturn(self, call) {
   if (call && (_typeof(call) === "object" || typeof call === "function")) {
     return call;
@@ -27460,7 +27591,7 @@ function _possibleConstructorReturn(self, call) {
 module.exports = _possibleConstructorReturn, module.exports.__esModule = true, module.exports["default"] = module.exports;
 
 /***/ }),
-/* 313 */
+/* 310 */
 /*!***************************************************************!*\
   !*** ./node_modules/@babel/runtime/helpers/getPrototypeOf.js ***!
   \***************************************************************/
@@ -27476,16 +27607,16 @@ function _getPrototypeOf(o) {
 module.exports = _getPrototypeOf, module.exports.__esModule = true, module.exports["default"] = module.exports;
 
 /***/ }),
-/* 314 */
+/* 311 */
 /*!****************************************************************!*\
   !*** ./node_modules/@babel/runtime/helpers/wrapNativeSuper.js ***!
   \****************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-var getPrototypeOf = __webpack_require__(/*! ./getPrototypeOf.js */ 313);
+var getPrototypeOf = __webpack_require__(/*! ./getPrototypeOf.js */ 310);
 var setPrototypeOf = __webpack_require__(/*! ./setPrototypeOf.js */ 16);
-var isNativeFunction = __webpack_require__(/*! ./isNativeFunction.js */ 315);
+var isNativeFunction = __webpack_require__(/*! ./isNativeFunction.js */ 312);
 var construct = __webpack_require__(/*! ./construct.js */ 15);
 function _wrapNativeSuper(Class) {
   var _cache = typeof Map === "function" ? new Map() : undefined;
@@ -27516,7 +27647,7 @@ function _wrapNativeSuper(Class) {
 module.exports = _wrapNativeSuper, module.exports.__esModule = true, module.exports["default"] = module.exports;
 
 /***/ }),
-/* 315 */
+/* 312 */
 /*!*****************************************************************!*\
   !*** ./node_modules/@babel/runtime/helpers/isNativeFunction.js ***!
   \*****************************************************************/
@@ -27533,7 +27664,7 @@ function _isNativeFunction(fn) {
 module.exports = _isNativeFunction, module.exports.__esModule = true, module.exports["default"] = module.exports;
 
 /***/ }),
-/* 316 */
+/* 313 */
 /*!***************************************************************!*\
   !*** D:/my/my-tiktop/pages.json?{"type":"origin-pages-json"} ***!
   \***************************************************************/
@@ -27554,14 +27685,9 @@ var _default = {
       "navigationBarTitleText": "首页"
     }
   }, {
-    "path": "pages/city/city",
+    "path": "pages/friend/friend",
     "style": {
-      "navigationBarTitleText": "同城"
-    }
-  }, {
-    "path": "pages/changeCity/changeCity",
-    "style": {
-      "navigationBarTitleText": ""
+      "navigationBarTitleText": "朋友"
     }
   }, {
     "path": "pages/news/news",
@@ -27578,6 +27704,26 @@ var _default = {
     "style": {
       "navigationBarTitleText": "上传视频"
     }
+  }, {
+    "path": "pages/login/login",
+    "style": {
+      "navigationBarTitleText": ""
+    }
+  }, {
+    "path": "pages/user/user",
+    "style": {
+      "navigationBarTitleText": ""
+    }
+  }, {
+    "path": "pages/follow/follow",
+    "style": {
+      "navigationBarTitleText": ""
+    }
+  }, {
+    "path": "pages/chat/chat",
+    "style": {
+      "navigationBarTitleText": ""
+    }
   }],
   "globalStyle": {
     "navigationBarTextStyle": "white",
@@ -27590,7 +27736,7 @@ var _default = {
     "list": [{
       "pagePath": "pages/index/index"
     }, {
-      "pagePath": "pages/city/city"
+      "pagePath": "pages/friend/friend"
     }, {
       "pagePath": "pages/news/news"
     }, {
@@ -27609,7 +27755,7 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 317 */
+/* 314 */
 /*!**************************************************!*\
   !*** D:/my/my-tiktop/pages.json?{"type":"stat"} ***!
   \**************************************************/
@@ -27629,7 +27775,7 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 318 */
+/* 315 */
 /*!********************************************************************************************************!*\
   !*** D:/my/my-tiktop/uni_modules/uni-file-picker/components/uni-file-picker/choose-and-upload-file.js ***!
   \********************************************************************************************************/
@@ -27849,10 +27995,10 @@ function chooseAndUploadFile() {
   }
   return uploadFiles(chooseAll(opts), opts);
 }
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"], __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/wx.js */ 1)["default"], __webpack_require__(/*! ./node_modules/@dcloudio/vue-cli-plugin-uni/packages/uni-cloud/dist/index.js */ 309)["default"]))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"], __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/wx.js */ 1)["default"], __webpack_require__(/*! ./node_modules/@dcloudio/vue-cli-plugin-uni/packages/uni-cloud/dist/index.js */ 306)["default"]))
 
 /***/ }),
-/* 319 */
+/* 316 */
 /*!***************************************************************************************!*\
   !*** D:/my/my-tiktop/uni_modules/uni-file-picker/components/uni-file-picker/utils.js ***!
   \***************************************************************************************/
@@ -28016,6 +28162,9 @@ exports.get_file_data = get_file_data;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
+/* 317 */,
+/* 318 */,
+/* 319 */,
 /* 320 */,
 /* 321 */,
 /* 322 */,
@@ -28058,7 +28207,11 @@ exports.get_file_data = get_file_data;
 /* 359 */,
 /* 360 */,
 /* 361 */,
-/* 362 */
+/* 362 */,
+/* 363 */,
+/* 364 */,
+/* 365 */,
+/* 366 */
 /*!***************************************************************************************!*\
   !*** D:/my/my-tiktop/uni_modules/uni-icons/components/uni-icons/uniicons_file_vue.js ***!
   \***************************************************************************************/

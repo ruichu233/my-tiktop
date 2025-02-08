@@ -1,6 +1,7 @@
 {
   "component": true,
   "usingComponents": {
+    "zwz-comment": "/components/zwz-comment/zwz-comment",
     "video-player": "/components/videoPlayer",
     "list-left": "/components/listLeft",
     "list-right": "/components/listRight",
