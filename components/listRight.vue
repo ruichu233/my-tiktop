@@ -1,7 +1,7 @@
 <template>
 	<view class="listright">
 		<view class="author-img">
-			<image class="img" src="../static/img/author.jpg" @click="click"></image>
+			<image class="img" :src="item.author_avatar ? item.author_avatar: defaultAvatar" @click="click"></image>
 			<view class="iconfont iconjiahao add" v-show="show" @click="hide">
 			</view>
 		</view>
@@ -29,7 +29,8 @@
 		data() {
 			return {
 				show:true,
-				color:''
+				color:'',
+				defaultAvatar : 'https://qiniu-web-assets.dcloud.net.cn/unidoc/zh/shuijiao.jpg',
 			};
 		},
 		methods:{
@@ -44,7 +45,7 @@
 			},
 			click(){
 				uni.navigateTo({
-					url:'/pages/user/user'
+					url:'/pages/user/user?author_id=' + this.item.author_id
 				})
 			},
 			openComment(){

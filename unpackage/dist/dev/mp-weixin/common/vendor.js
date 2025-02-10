@@ -27724,6 +27724,11 @@ var _default = {
     "style": {
       "navigationBarTitleText": ""
     }
+  }, {
+    "path": "pages/register/register",
+    "style": {
+      "navigationBarTitleText": ""
+    }
   }],
   "globalStyle": {
     "navigationBarTextStyle": "white",

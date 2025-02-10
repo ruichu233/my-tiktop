@@ -190,7 +190,7 @@ var _default = {
           },
           success: function success(res) {
             _this.list = res.data.data.video_list;
-            console.log(_this.list);
+            //	console.log(this.list)
           }
         }),
         _uni$request2 = (0, _slicedToArray2.default)(_uni$request, 2),

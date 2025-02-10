@@ -1,4 +1,4 @@
-<!-- 蓝色简洁登录页面 -->
+<!-- 蓝色简洁注册页面 -->
 <template>
 	<view class="t-login">
 		<!-- 页面装饰图片 -->
@@ -16,12 +16,18 @@
 			<view class="t-a">
 				<image src="https://zhoukaiwen.com/img/loginImg/yz.png"></image>
 				<view class="line"></view>
-				<input type="number" name="password" placeholder="请输入密码" v-model="password" />
+				<input type="text" name="verificationCode" placeholder="请输入验证码" v-model="verificationCode" />
+				<button @tap="sendVerificationCode()" class="send-code-btn">发送验证码</button>
 			</view>
-			<button @tap="login()">登 录</button>
+			<view class="t-a">
+				<image src="https://zhoukaiwen.com/img/loginImg/yz.png"></image>
+				<view class="line"></view>
+				<input type="password" name="password" placeholder="请输入密码" v-model="password" />
+			</view>
+			<button @tap="register()">注 册</button>
 			<view class="t-f">
-				<text>还没有账号？</text>
-				<text @tap="navigateToRegister" style="color: #5677fc;">立即注册</text>
+				<text>已有账号？</text>
+				<text @tap="navigateToLogin" style="color: #5677fc;">立即登录</text>
 			</view>
 		</form>
 	</view>
@@ -30,19 +36,58 @@
 	export default {
 		data() {
 			return {
-				title: '欢迎回来！', //填写logo或者app名称，也可以用：欢迎回来，看您需求
+				title: '欢迎注册！', //填写logo或者app名称，也可以用：欢迎注册，看您需求
 				email: '', //邮箱号
+				verificationCode: '', //验证码
 				password: '' //密码
 			};
 		},
 		onLoad() {},
 		methods: {
-			//当前登录按钮操作
-			login() {
+			// 发送验证码
+			sendVerificationCode() {
 				var that = this;
 				if (!that.email) {
 					uni.showToast({
 						title: '请输入邮箱号',
+						icon: 'none'
+					});
+					return;
+				}
+				// ...此处省略，这里需要调用后台发送验证码
+				uni.request({
+					url: "http://127.0.0.1:8080/v1/verification",
+					method: "POST",
+					data: {
+						email: that.email
+					},
+					success() {
+						uni.showToast({
+							title: '验证码已发送！',
+							icon: 'none'
+						});
+					},
+					fail() {
+						uni.showToast({
+							title: '验证码发送失败！',
+							icon: 'none'
+						})
+					}
+				})
+			},
+			// 当前注册按钮操作
+			register() {
+				var that = this;
+				if (!that.email) {
+					uni.showToast({
+						title: '请输入邮箱号',
+						icon: 'none'
+					});
+					return;
+				}
+				if (!that.verificationCode) {
+					uni.showToast({
+						title: '请输入验证码',
 						icon: 'none'
 					});
 					return;
@@ -54,40 +99,41 @@
 					});
 					return;
 				}
-				//....此处省略，这里需要调用后台验证一下验证码是否正确，根据您的需求来
+				// ...此处省略，这里需要调用后台验证验证码和注册用户
 				uni.request({
-					url:"http://127.0.0.1:8080/v1/email-login",
-					method:"POST",
-					data:{
-						"email":that.email,
-						"password":that.password,
+					url: "http://127.0.0.1:8080/v1/email-register",
+					method: "POST",
+					data: {
+						email: that.email,
+						code: that.verificationCode,
+						password: that.password
 					},
-					success(res) {
-						// 存token
-						console.log(res.data.data)
-						uni.setStorageSync("access-token",res.data.data.token)
-						uni.setStorageSync("userId",res.data.data.user_id)
+					success() {
 						uni.showToast({
-							title: '登录成功！',
+							title: '注册成功！',
 							icon: 'none'
 						});
-						// 跳转到首页
-						uni.switchTab({
-							url: '/pages/index/index'
-						})
+						uni.navigateTo({
+							url: '/pages/login/login'
+						});
+						// 保存登录信息
+						// 1、 保存token到本地
+						uni.setStorageSync("access-token", that.data.data.token)
+						// // 2、保存用户id和用户名到本地
+						// uni.setStorageSync("userId", that.data.data.userId)
+						// uni.setStorageSync("userName", that.data.data.userName)
 					},
 					fail() {
 						uni.showToast({
-							title: '登录失败！',
+							title: '注册失败！',
 							icon: 'none'
 						})
 					}
 				})
-				
 			},
-			navigateToRegister() {
+			navigateToLogin() {
 				uni.navigateTo({
-					url: '/pages/register/register'
+					url: '/pages/login/login'
 				});
 			}
 		}
@@ -212,7 +258,7 @@
 
 	.t-login .t-f {
 		text-align: center;
-		margin: 200rpx 0 0 0;
+		margin: 100rpx 0 0 0;
 		color: #666;
 	}
 
@@ -236,5 +282,18 @@
 		visibility: hidden;
 		height: 0;
 		content: '\20';
+	}
+
+	.send-code-btn {
+		position: absolute;
+		right: 5rpx;
+		top: 0rpx;
+		background: #5677fc;
+		color: #fff;
+		font-size: 24rpx;
+		border-radius: 50rpx;
+		height: 60rpx;
+		line-height: 60rpx;
+		padding: 0 25rpx;
 	}
 </style>

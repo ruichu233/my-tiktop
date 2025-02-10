@@ -13,7 +13,7 @@
 			</view>
 			<view class="top">
 				<view class="personal-img-box">
-					<image class="personal-img" src="../static/img/author.jpg" mode=""></image>
+					<image class="personal-img" :src="userInf.avatar ? userInf.avatar: defaultAvatar" mode=""></image>
 				</view>
 				<view v-if="pages==='user'" :style="style4" class="change" @click="change">
 					<text v-show="changeContent==='关注'" class="iconfont iconjiahao"></text> {{changeContent}}
@@ -24,43 +24,28 @@
 			</view>
 			<view class="name-box">
 				<view class="name">
-					文火
+					{{userInf.name}}
 				</view>
 				<view class="douyinId">
-					抖音号:1e243141
+					邮箱号:{{userInf.email}}
 				</view>
 			</view>
 			<view class="text-box">
 				<view class="introduce">
-					我爱睡觉
-				</view>
-				<view class="label-box">
-					<view class="label">
-						广东工业大学
-					</view>
-					<view class="label">
-						深圳
-					</view>
+					{{userInf.signature}}
 				</view>
 				<view class="number-box">
 					<view class="box">
-						<text class="number">123</text>
-						<text class="number-text">获赞</text>
-					</view>
-					<view class="box">
-						<text class="number">13452</text>
+						<text class="number">{{userInf.follow}}</text>
 						<text class="number-text">关注</text>
 					</view>
 					<view class="box">
-						<text class="number">1235</text>
+						<text class="number">{{userInf.fans}}</text>
 						<text class="number-text">粉丝</text>
 					</view>
 				</view>
 			</view>
-			<!-- 			<view class="add-box">
-				<text class="iconfont iconxiangji"></text>
-				<text class="add">添加随拍</text>
-			</view> -->
+
 			<view class="option-box">
 				<view class="option" :style="style1" @click="click('作品')">
 					作品
@@ -74,7 +59,7 @@
 
 	<script>
 		export default {
-			props: ['pages'],
+			props: ['pages','userInfo'],
 			data() {
 				return {
 					style1: 'border-bottom:3px solid #F0AD4E;',
@@ -82,8 +67,9 @@
 					style3: '',
 					style4: 'background:red',
 					changeContent: "关注",
-					userInfo: null,
-					showMenu:false
+					userInf: this.userInfo,
+					showMenu:false,
+					defaultAvatar: 'https://qiniu-web-assets.dcloud.net.cn/unidoc/zh/shuijiao.jpg', // 添加默认头像路径
 				};
 			},
 			methods: {
@@ -96,7 +82,9 @@
 				      // 这里可以添加实际的退出登录代码，例如清除本地存储的用户信息等
 					  uni.setStorageSync("access-token","")
 				      this.showMenu = false; // 关闭菜单
-					  this.$forceUpdate()
+					  uni.switchTab({
+					  	url: "/pages/index/index"
+					  })
 				    },
 				click(res) {
 					console.log("click")

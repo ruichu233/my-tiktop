@@ -1,11 +1,10 @@
 <template>
 	<view class="">
 		<view class="personalList">
-			
 			<view class="item" v-for="(item,index) in myVideoList" :key="item.id">
 				<video 
 				class="video" 
-				src="http://192.168.43.101:80/video/2-2.mp4" 
+				:src="item.video_url" 
 				objectFit="cover"
 				loop="true"
 				autoplay="true"
@@ -35,13 +34,7 @@
 		},
 		data() {
 			return {
-				myVideoList:[
-					{
-						"id":1,
-					},{
-						"id":2
-					}
-				]
+				myVideoList:this.videoList
 			};
 		}
 	}

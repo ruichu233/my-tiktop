@@ -8,7 +8,8 @@
     "pages/login/login",
     "pages/user/user",
     "pages/follow/follow",
-    "pages/chat/chat"
+    "pages/chat/chat",
+    "pages/register/register"
   ],
   "subPackages": [],
   "window": {

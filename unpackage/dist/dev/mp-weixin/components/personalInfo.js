@@ -179,23 +179,8 @@ exports.default = void 0;
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 var _default = {
-  props: ['pages'],
+  props: ['pages', 'userInfo'],
   data: function data() {
     return {
       style1: 'border-bottom:3px solid #F0AD4E;',
@@ -203,10 +188,12 @@ var _default = {
       style3: '',
       style4: 'background:red',
       changeContent: "关注",
-      userInfo: null,
-      showMenu: false
+      userInf: this.userInfo,
+      showMenu: false,
+      defaultAvatar: 'https://qiniu-web-assets.dcloud.net.cn/unidoc/zh/shuijiao.jpg' // 添加默认头像路径
     };
   },
+
   methods: {
     toggleMenu: function toggleMenu() {
       this.showMenu = !this.showMenu;

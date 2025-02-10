@@ -165,6 +165,10 @@ exports.default = void 0;
 //
 //
 //
+//
+//
+//
+//
 var _default = {
   data: function data() {
     return {
@@ -196,20 +200,37 @@ var _default = {
       }
       //....此处省略，这里需要调用后台验证一下验证码是否正确，根据您的需求来
       uni.request({
-        url: "",
+        url: "http://127.0.0.1:8080/v1/email-login",
         method: "POST",
-        data: {},
-        success: function success() {
+        data: {
+          "email": that.email,
+          "password": that.password
+        },
+        success: function success(res) {
           // 存token
-          uni.setStorageSync("access-token", this.data.data.token);
+          console.log(res.data.data);
+          uni.setStorageSync("access-token", res.data.data.token);
+          uni.setStorageSync("userId", res.data.data.user_id);
           uni.showToast({
             title: '登录成功！',
             icon: 'none'
           });
+          // 跳转到首页
+          uni.switchTab({
+            url: '/pages/index/index'
+          });
         },
         fail: function fail() {
-          uni.showToast({});
+          uni.showToast({
+            title: '登录失败！',
+            icon: 'none'
+          });
         }
+      });
+    },
+    navigateToRegister: function navigateToRegister() {
+      uni.navigateTo({
+        url: '/pages/register/register'
       });
     }
   }

@@ -147,18 +147,13 @@ exports.default = void 0;
 //
 //
 //
-//
 var _default = {
   props: {
     videoList: []
   },
   data: function data() {
     return {
-      myVideoList: [{
-        "id": 1
-      }, {
-        "id": 2
-      }]
+      myVideoList: this.videoList
     };
   }
 };

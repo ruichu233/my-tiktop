@@ -24,6 +24,7 @@
 		},
 		onLoad() {
 			this.getData()
+			
 		},
 		methods: {
 			getData() {
@@ -42,8 +43,14 @@
 					},
 					success: (res) => {
 						this.list = res.data.data.video_list
-						console.log(this.list)
+					//	console.log(this.list)
 					}
+				})
+			},
+			// 点赞
+			likeAction(){
+				uni.request({
+					url:""
 				})
 			}
 		}

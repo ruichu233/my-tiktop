@@ -57,9 +57,8 @@
 		},
 		methods: {
 			changeClick() {
-				console.log("点赞")
-				//点赞，调用listRight方法
 				this.$refs.right[0].change()
+				// this.
 			},
 			change(res) {
 				clearTimeout(time)
@@ -92,7 +91,7 @@
 					url:"http://127.0.0.1:8080/v1/comment/comment-list",
 					method:'POST',
 					header:{
-						"access-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MzkwMTY1NTQsImlhdCI6MTczODk4MDU1NCwiaWRlbnRpdHlLZXkiOiI2MDQ2NTExNDAwNjMzMDEiLCJuYmYiOjE3Mzg5ODA1NTR9.7XPQK8ZbQLW6T9YVkl4TSlGtNSn69wJCOwBndqodBmQ"
+						"access-token":uni.getStorageSync("access-token")
 					},
 					data:{
 						"video_id":videoId,
@@ -123,7 +122,7 @@
 					url:"http://127.0.0.1:8080/v1/comment/commment-publish",
 					method:'POST',
 					header:{
-						"access-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MzkwMTY1NTQsImlhdCI6MTczODk4MDU1NCwiaWRlbnRpdHlLZXkiOiI2MDQ2NTExNDAwNjMzMDEiLCJuYmYiOjE3Mzg5ODA1NTR9.7XPQK8ZbQLW6T9YVkl4TSlGtNSn69wJCOwBndqodBmQ"
+						"access-token":uni.getStorageSync("access-token")
 						},
 					data:{
 						"video_id":video_id,
@@ -132,13 +131,10 @@
 						"beReplayUserId":beReplayUserId
 					},
 					success: (res) => {
-						console.log(res)
+						this.getCommentList(video_id)
 					},
 				});
-				console.log(this.value)
 				this.value = '';
-				this.getCommentList(video_id);
-				
 			},
 			lower() {
 				console.log('到底了');

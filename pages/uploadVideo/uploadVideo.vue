@@ -112,8 +112,7 @@
 						method: "GET",
 						data: {}, // 可传递必要的参数
 						header: {
-							"access-token": uni.getStorageSync("access-token") ||
-								"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3Mzc1NDUyNjksImlhdCI6MTczNzUwOTI2OSwiaWRlbnRpdHlLZXkiOiI2MDQ2NTExNDAwNjMzMDEiLCJuYmYiOjE3Mzc1MDkyNjl9.8F-pCGx1GBZjM6rzdaOyP2DFdywO7QOFd8qSSkJdbuA",
+							"access-token": uni.getStorageSync("access-token")
 						},
 					});
 
@@ -177,8 +176,7 @@
 							description: this.description
 						},
 						header: {
-							"access-token": uni.getStorageSync("access-token") ||
-								"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3Mzc1NDUyNjksImlhdCI6MTczNzUwOTI2OSwiaWRlbnRpdHlLZXkiOiI2MDQ2NTExNDAwNjMzMDEiLCJuYmYiOjE3Mzc1MDkyNjl9.8F-pCGx1GBZjM6rzdaOyP2DFdywO7QOFd8qSSkJdbuA",
+							"access-token": uni.getStorageSync("access-token") 
 						}
 					})
 

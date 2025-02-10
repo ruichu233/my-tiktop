@@ -170,6 +170,17 @@ var _default = {
   },
   data: function data() {
     return {
+      userInfo: {
+        userId: 0,
+        avatar: "",
+        name: "用户名",
+        email: "3333",
+        signature: "个性签名",
+        follow: 0,
+        // 关注者数量
+        fans: 0 // 被关注者数量(粉丝数)
+      },
+
       list: [],
       show: "作品",
       pages: "personal"
@@ -179,23 +190,57 @@ var _default = {
     getVideoInfo: function getVideoInfo() {
       var _this = this;
       uni.request({
-        url: 'http://192.168.43.101:80/api/videos.json',
+        url: 'http://127.0.0.1:8080/v1/video/user/video-list',
+        method: "POST",
+        data: {
+          "user_id": uni.getStorageSync("userId")
+        },
+        header: {
+          "access-token": uni.getStorageSync("access-token")
+        },
         success: function success(res) {
-          _this.list = res.data.list;
+          _this.list = res.data.data.video_list;
         }
       });
     },
     change: function change(res) {
       this.show = res;
+    },
+    // 获取用户信息
+    getUserInfo: function getUserInfo(userId) {
+      var _this2 = this;
+      uni.request({
+        url: 'http://127.0.0.1:8080/v1/user/' + userId,
+        method: 'GET',
+        header: {
+          'access-token': uni.getStorageSync("access-token")
+        },
+        success: function success(res) {
+          console.log(res);
+          _this2.userInfo.userId = res.data.data.user_id;
+          _this2.userInfo.avatar = res.data.data.avatar;
+          _this2.userInfo.name = res.data.data.name;
+          _this2.userInfo.email = res.data.data.email;
+          _this2.userInfo.signature = res.data.data.signature;
+          _this2.userInfo.follow = res.data.data.follower_count;
+          _this2.userInfo.fans = res.data.data.followed_count;
+          console.log(_this2.userInfo);
+        }
+      });
     }
   },
   created: function created() {
-    // 判断是否登录，如果未登录则跳转到登录页面
-    // if (uni.getStorageSync("access-token") == "") {
-    // 	uni.navigateTo({
-    // 		url: "/pages/login/login"
-    // 	})
-    // }
+    //判断是否登录，如果未登录则跳转到登录页面
+    console.log(uni.getStorageSync("access-token"));
+    if (uni.getStorageSync("access-token") == "") {
+      uni.navigateTo({
+        url: "/pages/login/login"
+      });
+    }
+  },
+  onShow: function onShow() {
+    var userId = uni.getStorageSync("userId");
+    this.getUserInfo(userId);
     this.getVideoInfo();
   }
 };
