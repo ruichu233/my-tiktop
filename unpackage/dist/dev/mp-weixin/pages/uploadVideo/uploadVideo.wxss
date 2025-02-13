@@ -82,7 +82,7 @@ button.data-v-d3badb08:hover {
 }
 .upload-button.data-v-d3badb08 {
 	margin-top: 30rpx;
-	margin-bottom:30rpx;
+	margin-bottom: 30rpx;
 	width: 100%;
 }
 

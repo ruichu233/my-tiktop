@@ -1,22 +1,22 @@
 <template>
 	<view class="listright">
 		<view class="author-img">
-			<image class="img" :src="item.author_avatar ? item.author_avatar: defaultAvatar" @click="click"></image>
+			<image class="img" :src="myitem.author_avatar ? myitem.author_avatar: defaultAvatar" @click="click"></image>
 			<view class="iconfont iconjiahao add" v-show="show" @click="hide">
 			</view>
 		</view>
 		<view class="iconfont iconaixin right-box" :style="color" @click="changeColor">
 		</view>
 		<view class="number">
-			{{item.like_count}}
+			{{myitem.like_count}}
 		</view>
 		<view class="iconfont icontubiaozhizuo- right-box" @click="openComment">
 		</view>
 		<view class="number">
-			{{item.comment_count}}
+			{{myitem.comment_count}}
 		</view>
-		<view class="iconfont iconfenxiang right-box">
-		</view>
+<!-- 		<view class="iconfont iconfenxiang right-box">
+		</view> -->
 		<view class="around">
 			<image class="img" src="../static/img/2-1.jpg" mode=""></image>
 		</view>
@@ -28,7 +28,8 @@
 		props:['item'],
 		data() {
 			return {
-				show:true,
+				myitem:this.item,
+				show:!this.item.is_like,
 				color:'',
 				defaultAvatar : 'https://qiniu-web-assets.dcloud.net.cn/unidoc/zh/shuijiao.jpg',
 			};
@@ -36,9 +37,19 @@
 		methods:{
 			hide(){
 				this.show=false
+				// uni.request({
+				// 	url:"http://127.0.0.1:8080/v1/"
+				// })
 			},
 			changeColor(){
 				this.color=this.color===''?"color:red;":''
+				if (this.color != ''){
+					this.myitem.like_count += 1 
+				}else{
+					this.myitem.like_count -= 1 
+				}
+					
+				
 			},
 			change(){
 				this.color="color:red;"

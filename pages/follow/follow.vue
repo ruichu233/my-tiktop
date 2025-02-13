@@ -30,9 +30,10 @@
 				const[err,videoListResp] = uni.request({
 					url: "http://127.0.0.1:8080/v1/video/video-list",
 					data: {
-						page: 10,
+						page: 0,
 						cursor: 0,
-						feed_type: 1
+						feed_type: 1,
+						page_size: 10
 					},
 					method: 'POST',
 					header: {

@@ -32,6 +32,7 @@
 					signature:"个性签名",
 					follow: 0, // 关注者数量
 					fans: 0, // 被关注者数量(粉丝数)
+					isFollow:false
 				},
 				list:[],
 				likes:[],
@@ -92,6 +93,7 @@
 						this.userInfo.signature = res.data.data.signature
 						this.userInfo.follow = res.data.data.follower_count
 						this.userInfo.fans = res.data.data.followed_count
+						this.userInfo.isFollow = res.data.is_follow
 					}
 				})
 			},

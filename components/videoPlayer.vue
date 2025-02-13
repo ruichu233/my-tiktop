@@ -47,7 +47,7 @@
 						this.$emit('changeClick')
 					}
 					this.dblClick=false
-				},300)
+				},700)
 			},
 			player(){
 				//从头播放视频

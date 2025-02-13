@@ -73,6 +73,46 @@
 				if (res[1].tempFilePath) {
 					this.videoSrc = res[1].tempFilePath;
 				}
+			}, // 使用 FileReader 读取文件
+			readFile(filePath) {
+				return new Promise((resolve, reject) => {
+					const xhr = new XMLHttpRequest();
+					xhr.open('GET', filePath, true);
+					xhr.responseType = 'blob';
+
+					xhr.onload = () => {
+						if (xhr.status === 200) {
+							const blob = xhr.response;
+							const reader = new FileReader();
+
+							// 使用 FileReader 读取文件内容
+							reader.readAsArrayBuffer(blob);
+
+							reader.onload = (e) => {
+								// 文件读取成功，返回文件数据
+								this.fileData = e.target.result; // 存储文件内容
+								console.log('File data:', this.fileData); // 打印文件数据
+
+								// 使用 resolve 返回 fileData
+								resolve(this.fileData);
+							};
+
+							// 错误回调
+							reader.onerror = (e) => {
+								console.error('File reading failed:', e);
+								reject(new Error('File reading failed'));
+							};
+						} else {
+							reject(new Error('Failed to load file'));
+						}
+					};
+
+					xhr.onerror = () => {
+						reject(new Error('Failed to load file'));
+					};
+
+					xhr.send();
+				});
 			},
 			// 发布作品
 			async uploadVideo() {
@@ -131,35 +171,45 @@
 					}
 
 					// Step 2: 上传封面图
-					const fileData = uni.getFileSystemManager().readFileSync(this.coverSrc);
-					const [coverErr, coverUploadResult] = await uni.request({
-						url: coverUploadURL,
-						method: 'PUT',
-						data: fileData,
-						header: {
-							'Content-Type': 'application/octet-stream',
+					// const fileData = uni.getFileSystemManager().readFileSync(this.coverSrc);
+					await this.readFile(this.coverSrc).then((fileData)=>{
+						const [coverErr, coverUploadResult] =  uni.request({
+							url: coverUploadURL,
+							method: 'PUT',
+							data: fileData,
+							header: {
+								'Content-Type': 'application/octet-stream',
+							}
+						});
+						if (coverErr || coverUploadResult.statusCode !== 200) {
+							throw new Error("封面图上传失败");
 						}
-					});
-
-					if (coverErr || coverUploadResult.statusCode !== 200) {
-						throw new Error("封面图上传失败");
-					}
+					})
+					.catch((error) => {
+					    console.error('Error:', error);
+					  });
 
 					// Step 3: 上传视频文件
-					const videlData = uni.getFileSystemManager().readFileSync(this.videoSrc);
-					const [videoErr, videoUploadResult] = await uni.request({
-						url: videoUploadURL,
-						method: 'PUT',
-						data: videlData,
-						header: {
-							'Content-Type': 'application/octet-stream',
+					// const videlData = uni.getFileSystemManager().readFileSync(this.videoSrc);
+					
+					await this.readFile(this.videoSrc).then((fileData)=>{
+						const [videoErr, videoUploadResult] =  uni.request({
+							url: videoUploadURL,
+							method: 'PUT',
+							data: fileData,
+							header: {
+								'Content-Type': 'application/octet-stream',
+							}
+						});
+						
+						if (videoErr || videoUploadResult.statusCode !== 200) {
+							throw new Error("视频上传失败");
+							return
 						}
-					});
-
-					if (videoErr || videoUploadResult.statusCode !== 200) {
-						throw new Error("视频上传失败");
-						return
-					}
+					})
+					.catch((error) => {
+					    console.error('Error:', error);
+					  });
 
 					// 成功提示
 					uni.showToast({
@@ -167,7 +217,7 @@
 						icon: "success",
 					});
 					uni.request({
-						url: "http://127.001:8080/v1/video/publish",
+						url: "http://127.0.0.1:8080/v1/video/publish",
 						method: 'POST',
 						data: {
 							video_url: videoUploadURL.split("?")[0],
@@ -176,11 +226,9 @@
 							description: this.description
 						},
 						header: {
-							"access-token": uni.getStorageSync("access-token") 
+							"access-token": uni.getStorageSync("access-token")
 						}
 					})
-
-
 					this.goBack()
 				} catch (err) {
 					console.error("上传失败:", err);
@@ -276,7 +324,7 @@
 
 	.upload-button {
 		margin-top: 30rpx;
-		margin-bottom:30rpx;
+		margin-bottom: 30rpx;
 		width: 100%;
 	}
 </style>

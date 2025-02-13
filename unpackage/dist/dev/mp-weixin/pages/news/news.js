@@ -143,17 +143,17 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = void 0;
 var newsNav = function newsNav() {
   __webpack_require__.e(/*! require.ensure | components/newsNav */ "components/newsNav").then((function () {
-    return resolve(__webpack_require__(/*! ../../components/newsNav.vue */ 252));
+    return resolve(__webpack_require__(/*! ../../components/newsNav.vue */ 268));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var tab = function tab() {
   __webpack_require__.e(/*! require.ensure | components/tab */ "components/tab").then((function () {
-    return resolve(__webpack_require__(/*! ../../components/tab.vue */ 231));
+    return resolve(__webpack_require__(/*! ../../components/tab.vue */ 247));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var newsContent = function newsContent() {
   __webpack_require__.e(/*! require.ensure | components/newsContent */ "components/newsContent").then((function () {
-    return resolve(__webpack_require__(/*! ../../components/newsContent.vue */ 259));
+    return resolve(__webpack_require__(/*! ../../components/newsContent.vue */ 275));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var _default = {

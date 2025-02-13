@@ -3,7 +3,7 @@
 	<view class="t-login">
 		<!-- 页面装饰图片 -->
 		<image class="img-a" src="https://zhoukaiwen.com/img/loginImg/2.png"></image>
-		<image class="img-b" src="https://zhoukaiwen.com/img/loginImg/3.png"></image>
+		<!-- <image class="img-b" src="https://zhoukaiwen.com/img/loginImg/3.png"></image> -->
 		<!-- 标题 -->
 		<view class="t-b">{{ title }}</view>
 		<view class="t-b2">欢迎使用，小程序</view>

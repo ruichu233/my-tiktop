@@ -101,13 +101,13 @@ var components
 try {
   components = {
     uniSection: function () {
-      return __webpack_require__.e(/*! import() | uni_modules/uni-section/components/uni-section/uni-section */ "uni_modules/uni-section/components/uni-section/uni-section").then(__webpack_require__.bind(null, /*! @/uni_modules/uni-section/components/uni-section/uni-section.vue */ 287))
+      return __webpack_require__.e(/*! import() | uni_modules/uni-section/components/uni-section/uni-section */ "uni_modules/uni-section/components/uni-section/uni-section").then(__webpack_require__.bind(null, /*! @/uni_modules/uni-section/components/uni-section/uni-section.vue */ 303))
     },
     uniEasyinput: function () {
-      return __webpack_require__.e(/*! import() | uni_modules/uni-easyinput/components/uni-easyinput/uni-easyinput */ "uni_modules/uni-easyinput/components/uni-easyinput/uni-easyinput").then(__webpack_require__.bind(null, /*! @/uni_modules/uni-easyinput/components/uni-easyinput/uni-easyinput.vue */ 294))
+      return __webpack_require__.e(/*! import() | uni_modules/uni-easyinput/components/uni-easyinput/uni-easyinput */ "uni_modules/uni-easyinput/components/uni-easyinput/uni-easyinput").then(__webpack_require__.bind(null, /*! @/uni_modules/uni-easyinput/components/uni-easyinput/uni-easyinput.vue */ 310))
     },
     uniFilePicker: function () {
-      return Promise.all(/*! import() | uni_modules/uni-file-picker/components/uni-file-picker/uni-file-picker */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uni-file-picker/components/uni-file-picker/uni-file-picker")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uni-file-picker/components/uni-file-picker/uni-file-picker.vue */ 301))
+      return Promise.all(/*! import() | uni_modules/uni-file-picker/components/uni-file-picker/uni-file-picker */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uni-file-picker/components/uni-file-picker/uni-file-picker")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uni-file-picker/components/uni-file-picker/uni-file-picker.vue */ 317))
     },
   }
 } catch (e) {
@@ -177,7 +177,7 @@ var _asyncToGenerator2 = _interopRequireDefault(__webpack_require__(/*! @babel/r
 var _defineProperty2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/defineProperty */ 11));
 var tab = function tab() {
   __webpack_require__.e(/*! require.ensure | components/tab */ "components/tab").then((function () {
-    return resolve(__webpack_require__(/*! ../../components/tab.vue */ 231));
+    return resolve(__webpack_require__(/*! ../../components/tab.vue */ 247));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var _default = {
@@ -237,16 +237,54 @@ var _default = {
         }, _callee);
       }))();
     },
+    // 使用 FileReader 读取文件
+    readFile: function readFile(filePath) {
+      var _this2 = this;
+      return new Promise(function (resolve, reject) {
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', filePath, true);
+        xhr.responseType = 'blob';
+        xhr.onload = function () {
+          if (xhr.status === 200) {
+            var blob = xhr.response;
+            var reader = new FileReader();
+
+            // 使用 FileReader 读取文件内容
+            reader.readAsArrayBuffer(blob);
+            reader.onload = function (e) {
+              // 文件读取成功，返回文件数据
+              _this2.fileData = e.target.result; // 存储文件内容
+              console.log('File data:', _this2.fileData); // 打印文件数据
+
+              // 使用 resolve 返回 fileData
+              resolve(_this2.fileData);
+            };
+
+            // 错误回调
+            reader.onerror = function (e) {
+              console.error('File reading failed:', e);
+              reject(new Error('File reading failed'));
+            };
+          } else {
+            reject(new Error('Failed to load file'));
+          }
+        };
+        xhr.onerror = function () {
+          reject(new Error('Failed to load file'));
+        };
+        xhr.send();
+      });
+    },
     // 发布作品
     uploadVideo: function uploadVideo() {
-      var _this2 = this;
+      var _this3 = this;
       return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee2() {
-        var _yield$uni$request, _yield$uni$request2, err, uploadUrlResp, _uploadUrlResp$data$d, videoUploadURL, coverUploadURL, fileData, _yield$uni$request3, _yield$uni$request4, coverErr, coverUploadResult, videlData, _yield$uni$request5, _yield$uni$request6, videoErr, videoUploadResult;
+        var _yield$uni$request, _yield$uni$request2, err, uploadUrlResp, _uploadUrlResp$data$d, videoUploadURL, coverUploadURL;
         return _regenerator.default.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                if (_this2.title) {
+                if (_this3.title) {
                   _context2.next = 3;
                   break;
                 }
@@ -256,7 +294,7 @@ var _default = {
                 });
                 return _context2.abrupt("return");
               case 3:
-                if (_this2.videoSrc) {
+                if (_this3.videoSrc) {
                   _context2.next = 6;
                   break;
                 }
@@ -266,7 +304,7 @@ var _default = {
                 });
                 return _context2.abrupt("return");
               case 6:
-                if (_this2.coverSrc) {
+                if (_this3.coverSrc) {
                   _context2.next = 9;
                   break;
                 }
@@ -282,13 +320,13 @@ var _default = {
                 _context2.prev = 10;
                 _context2.next = 13;
                 return uni.request({
-                  url: "http://127.001:8080/v1/video/" + _this2.videoSrc.split("/")[3].split(".")[0],
+                  url: "http://127.001:8080/v1/video/" + _this3.videoSrc.split("/")[3].split(".")[0],
                   // 替换为实际接口地址
                   method: "GET",
                   data: {},
                   // 可传递必要的参数
                   header: {
-                    "access-token": uni.getStorageSync("access-token") || "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3Mzc1NDUyNjksImlhdCI6MTczNzUwOTI2OSwiaWRlbnRpdHlLZXkiOiI2MDQ2NTExNDAwNjMzMDEiLCJuYmYiOjE3Mzc1MDkyNjl9.8F-pCGx1GBZjM6rzdaOyP2DFdywO7QOFd8qSSkJdbuA"
+                    "access-token": uni.getStorageSync("access-token")
                   }
                 });
               case 13:
@@ -310,89 +348,86 @@ var _default = {
                 }
                 throw new Error("获取的上传链接无效");
               case 22:
-                // Step 2: 上传封面图
-                fileData = uni.getFileSystemManager().readFileSync(_this2.coverSrc);
-                _context2.next = 25;
-                return uni.request({
-                  url: coverUploadURL,
-                  method: 'PUT',
-                  data: fileData,
-                  header: {
-                    'Content-Type': 'application/octet-stream'
+                _context2.next = 24;
+                return _this3.readFile(_this3.coverSrc).then(function (fileData) {
+                  var _uni$request = uni.request({
+                      url: coverUploadURL,
+                      method: 'PUT',
+                      data: fileData,
+                      header: {
+                        'Content-Type': 'application/octet-stream'
+                      }
+                    }),
+                    _uni$request2 = (0, _slicedToArray2.default)(_uni$request, 2),
+                    coverErr = _uni$request2[0],
+                    coverUploadResult = _uni$request2[1];
+                  if (coverErr || coverUploadResult.statusCode !== 200) {
+                    throw new Error("封面图上传失败");
                   }
+                }).catch(function (error) {
+                  console.error('Error:', error);
                 });
-              case 25:
-                _yield$uni$request3 = _context2.sent;
-                _yield$uni$request4 = (0, _slicedToArray2.default)(_yield$uni$request3, 2);
-                coverErr = _yield$uni$request4[0];
-                coverUploadResult = _yield$uni$request4[1];
-                if (!(coverErr || coverUploadResult.statusCode !== 200)) {
-                  _context2.next = 31;
-                  break;
-                }
-                throw new Error("封面图上传失败");
-              case 31:
-                // Step 3: 上传视频文件
-                videlData = uni.getFileSystemManager().readFileSync(_this2.videoSrc);
-                _context2.next = 34;
-                return uni.request({
-                  url: videoUploadURL,
-                  method: 'PUT',
-                  data: videlData,
-                  header: {
-                    'Content-Type': 'application/octet-stream'
+              case 24:
+                _context2.next = 26;
+                return _this3.readFile(_this3.videoSrc).then(function (fileData) {
+                  var _uni$request3 = uni.request({
+                      url: videoUploadURL,
+                      method: 'PUT',
+                      data: fileData,
+                      header: {
+                        'Content-Type': 'application/octet-stream'
+                      }
+                    }),
+                    _uni$request4 = (0, _slicedToArray2.default)(_uni$request3, 2),
+                    videoErr = _uni$request4[0],
+                    videoUploadResult = _uni$request4[1];
+                  if (videoErr || videoUploadResult.statusCode !== 200) {
+                    throw new Error("视频上传失败");
+                    return;
                   }
+                }).catch(function (error) {
+                  console.error('Error:', error);
                 });
-              case 34:
-                _yield$uni$request5 = _context2.sent;
-                _yield$uni$request6 = (0, _slicedToArray2.default)(_yield$uni$request5, 2);
-                videoErr = _yield$uni$request6[0];
-                videoUploadResult = _yield$uni$request6[1];
-                if (!(videoErr || videoUploadResult.statusCode !== 200)) {
-                  _context2.next = 41;
-                  break;
-                }
-                throw new Error("视频上传失败");
-              case 41:
+              case 26:
                 // 成功提示
                 uni.showToast({
                   title: "视频发布成功",
                   icon: "success"
                 });
                 uni.request({
-                  url: "http://127.001:8080/v1/video/publish",
+                  url: "http://127.0.0.1:8080/v1/video/publish",
                   method: 'POST',
                   data: {
                     video_url: videoUploadURL.split("?")[0],
                     cover_url: coverUploadURL.split("?")[0],
-                    title: _this2.title,
-                    description: _this2.description
+                    title: _this3.title,
+                    description: _this3.description
                   },
                   header: {
-                    "access-token": uni.getStorageSync("access-token") || "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3Mzc1NDUyNjksImlhdCI6MTczNzUwOTI2OSwiaWRlbnRpdHlLZXkiOiI2MDQ2NTExNDAwNjMzMDEiLCJuYmYiOjE3Mzc1MDkyNjl9.8F-pCGx1GBZjM6rzdaOyP2DFdywO7QOFd8qSSkJdbuA"
+                    "access-token": uni.getStorageSync("access-token")
                   }
                 });
-                _this2.goBack();
-                _context2.next = 50;
+                _this3.goBack();
+                _context2.next = 35;
                 break;
-              case 46:
-                _context2.prev = 46;
+              case 31:
+                _context2.prev = 31;
                 _context2.t0 = _context2["catch"](10);
                 console.error("上传失败:", _context2.t0);
                 uni.showToast({
                   title: _context2.t0.message || "上传失败",
                   icon: "none"
                 });
-              case 50:
-                _context2.prev = 50;
+              case 35:
+                _context2.prev = 35;
                 uni.hideLoading();
-                return _context2.finish(50);
-              case 53:
+                return _context2.finish(35);
+              case 38:
               case "end":
                 return _context2.stop();
             }
           }
-        }, _callee2, null, [[10, 46, 50, 53]]);
+        }, _callee2, null, [[10, 31, 35, 38]]);
       }))();
     }
   }

@@ -145,21 +145,35 @@ exports.default = void 0;
 var _toConsumableArray2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/toConsumableArray */ 18));
 var tab = function tab() {
   __webpack_require__.e(/*! require.ensure | components/tab */ "components/tab").then((function () {
-    return resolve(__webpack_require__(/*! ../../components/tab.vue */ 231));
+    return resolve(__webpack_require__(/*! ../../components/tab.vue */ 247));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var _default = {
   data: function data() {
     return {
+      tabs: [{
+        title: '我的好友'
+      }, {
+        title: '我的关注'
+      }, {
+        title: '我的粉丝'
+      }],
+      currentTab: 0,
       friends: [],
       // 好友列表
+      follows: [],
+      // 关注列表
+      fans: [],
+      // 粉丝列表
       page: 1,
       // 当前页
       hasMore: true,
       // 是否还有更多
       isLoading: false,
       // 是否正在加载
-      containerHeight: 0 // 设置容器的高度
+      containerHeight: 0,
+      // 设置容器的高度
+      userId: null // 初始化为null
     };
   },
 
@@ -172,27 +186,50 @@ var _default = {
       if (this.isLoading) return; // 避免重复加载
 
       this.isLoading = true; // 设置为正在加载
-      var newFriends = [{
-        id: this.page * 3 - 2,
-        avatar: 'https://www.bing.com/th?id=OIP.4dZ2QcbWcKQHGGb1lDQkFwHaFS&pid=Api',
-        // 头像图片 URL
-        username: 'User' + (this.page * 3 - 2)
-      }, {
-        id: this.page * 3 - 1,
-        avatar: 'https://www.bing.com/th?id=OIP.4dZ2QcbWcKQHGGb1lDQkFwHaFS&pid=Api',
-        username: 'User' + (this.page * 3 - 1)
-      }, {
-        id: this.page * 3,
-        avatar: 'https://www.bing.com/th?id=OIP.4dZ2QcbWcKQHGGb1lDQkFwHaFS&pid=Api',
-        username: 'User' + this.page * 3
-      }];
-
-      // 假设获取的数据
-      this.friends = [].concat((0, _toConsumableArray2.default)(this.friends), newFriends);
-
-      // 判断是否有更多数据
-      this.hasMore = this.page < 3; // 假设一共只有3页
-      this.isLoading = false; // 加载完毕
+      this.fetchFollowList();
+    },
+    // 获取关注列表、粉丝列表和朋友列表
+    fetchFollowList: function fetchFollowList() {
+      var _this$friends,
+        _this$follows,
+        _this$fans,
+        _this = this;
+      var followType = this.currentTab + 1; // 1 朋友 2 粉丝 3 关注
+      var lastId = this.currentTab === 0 ? (_this$friends = this.friends[this.friends.length - 1]) === null || _this$friends === void 0 ? void 0 : _this$friends.id : this.currentTab === 1 ? (_this$follows = this.follows[this.follows.length - 1]) === null || _this$follows === void 0 ? void 0 : _this$follows.id : (_this$fans = this.fans[this.fans.length - 1]) === null || _this$fans === void 0 ? void 0 : _this$fans.id;
+      uni.request({
+        url: 'http://127.0.0.1:8080/v1/follow/follow-list',
+        method: 'POST',
+        header: {
+          "access-token": uni.getStorageSync('access-token')
+        },
+        data: {
+          "user_id": this.userId,
+          "follow_type": followType,
+          "cursor": 0,
+          "page_size": 10,
+          "last_id": Number(lastId) ? Number(lastId) : 0
+        },
+        success: function success(response) {
+          var data = response.data;
+          switch (_this.currentTab) {
+            case 0:
+              _this.friends = [].concat((0, _toConsumableArray2.default)(_this.friends), (0, _toConsumableArray2.default)(data.follow_list));
+              break;
+            case 1:
+              _this.follows = [].concat((0, _toConsumableArray2.default)(_this.follows), (0, _toConsumableArray2.default)(data.follow_list));
+              break;
+            case 2:
+              _this.fans = [].concat((0, _toConsumableArray2.default)(_this.fans), (0, _toConsumableArray2.default)(data.follow_list));
+              break;
+          }
+          _this.hasMore = !data.is_end;
+          _this.isLoading = false;
+        },
+        fail: function fail(error) {
+          console.error('There was an error!', error);
+          _this.isLoading = false;
+        }
+      });
     },
     // 滚动监听
     onScroll: function onScroll(event) {
@@ -205,12 +242,35 @@ var _default = {
         this.page += 1;
         this.loadFriends(); // 加载更多
       }
+    },
+    // 切换标签页
+    changeTab: function changeTab(index) {
+      this.currentTab = index;
+      this.page = 1;
+      this.hasMore = true;
+      this.isLoading = false;
+      // 清空当前 tab 对应的数据
+      switch (index) {
+        case 0:
+          this.friends = []; // 清空朋友列表
+          break;
+        case 1:
+          this.follows = []; // 清空关注列表
+          break;
+        case 2:
+          this.fans = []; // 清空粉丝列表
+          break;
+      }
+      this.loadFriends();
     }
   },
   mounted: function mounted() {
+    // 从localstorage获取userId并确保其为数字类型
+    var userIdFromStorage = uni.getStorageSync('userId');
+    this.userId = typeof userIdFromStorage === 'number' ? userIdFromStorage : parseInt(userIdFromStorage, 10);
     this.loadFriends(); // 初始化加载第一页数据
     // 设置容器的高度（考虑状态栏和底部导航栏等）
-    this.containerHeight = uni.getSystemInfoSync().windowHeight;
+    this.containerHeight = uni.getSystemInfoSync().windowHeight - 10;
   }
 };
 exports.default = _default;

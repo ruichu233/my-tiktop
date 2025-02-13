@@ -145,17 +145,17 @@ exports.default = void 0;
 var _slicedToArray2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/slicedToArray */ 5));
 var tab = function tab() {
   __webpack_require__.e(/*! require.ensure | components/tab */ "components/tab").then((function () {
-    return resolve(__webpack_require__(/*! ../../components/tab.vue */ 231));
+    return resolve(__webpack_require__(/*! ../../components/tab.vue */ 247));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var firstNav = function firstNav() {
   __webpack_require__.e(/*! require.ensure | components/first-nav */ "components/first-nav").then((function () {
-    return resolve(__webpack_require__(/*! ../../components/first-nav.vue */ 238));
+    return resolve(__webpack_require__(/*! ../../components/first-nav.vue */ 254));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var videoList = function videoList() {
   __webpack_require__.e(/*! require.ensure | components/videoList */ "components/videoList").then((function () {
-    return resolve(__webpack_require__(/*! ../../components/videoList.vue */ 245));
+    return resolve(__webpack_require__(/*! ../../components/videoList.vue */ 261));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var _default = {
@@ -196,6 +196,12 @@ var _default = {
         _uni$request2 = (0, _slicedToArray2.default)(_uni$request, 2),
         err = _uni$request2[0],
         videoListResp = _uni$request2[1];
+    },
+    // 点赞
+    likeAction: function likeAction() {
+      uni.request({
+        url: ""
+      });
     }
   }
 };

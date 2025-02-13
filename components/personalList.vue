@@ -28,9 +28,7 @@
 <script>
 	export default {
 		props: {
-			videoList:[
-				
-			]
+			"videoList":[]
 		},
 		data() {
 			return {

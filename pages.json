@@ -64,6 +64,13 @@
 			{
 				"navigationBarTitleText" : ""
 			}
+		},
+		{
+			"path" : "pages/changeInfo/changeInfo",
+			"style" : 
+			{
+				"navigationBarTitleText" : ""
+			}
 		}
 	],
 	"globalStyle": {
@@ -78,7 +85,8 @@
 			{"pagePath":"pages/index/index"},
 			{"pagePath":"pages/friend/friend"},
 			{"pagePath":"pages/news/news"},
-			{"pagePath":"pages/personal/personal"}
+			{"pagePath":"pages/personal/personal"},
+			{"pagePath": "pages/follow/follow"}
 		]
 		},
 	"condition" : { //模式配置，仅开发期间生效

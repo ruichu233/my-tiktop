@@ -143,17 +143,17 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = void 0;
 var personalInfo = function personalInfo() {
   __webpack_require__.e(/*! require.ensure | components/personalInfo */ "components/personalInfo").then((function () {
-    return resolve(__webpack_require__(/*! ../../components/personalInfo.vue */ 266));
+    return resolve(__webpack_require__(/*! ../../components/personalInfo.vue */ 282));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var personalList = function personalList() {
   __webpack_require__.e(/*! require.ensure | components/personalList */ "components/personalList").then((function () {
-    return resolve(__webpack_require__(/*! ../../components/personalList.vue */ 273));
+    return resolve(__webpack_require__(/*! ../../components/personalList.vue */ 289));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var followList = function followList() {
   __webpack_require__.e(/*! require.ensure | components/followList */ "components/followList").then((function () {
-    return resolve(__webpack_require__(/*! ../../components/followList.vue */ 280));
+    return resolve(__webpack_require__(/*! ../../components/followList.vue */ 296));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var _default = {
@@ -164,20 +164,54 @@ var _default = {
   },
   data: function data() {
     return {
+      userInfo: {
+        userId: 0,
+        avatar: "",
+        name: "用户名",
+        email: "3333",
+        signature: "个性签名",
+        follow: 0,
+        // 关注者数量
+        fans: 0,
+        // 被关注者数量(粉丝数)
+        isFollow: false
+      },
       list: [],
+      likes: [],
       show: "作品",
       pages: "user"
     };
   },
   methods: {
-    getVideoInfo: function getVideoInfo() {
+    getVideoInfo: function getVideoInfo(user_id) {
       var _this = this;
       uni.request({
-        url: 'http://127.0.0.1:8080/api/videos.json',
+        url: 'http://127.0.0.1:8080/v1/video/user/video-list',
         method: "POST",
-        data: {},
+        data: {
+          "user_id": user_id
+        },
+        header: {
+          "access-token": uni.getStorageSync("access-token")
+        },
         success: function success(res) {
-          _this.list = res.data.list;
+          _this.list = res.data.data.video_list;
+        }
+      });
+    },
+    getLikes: function getLikes(user_id) {
+      var _this2 = this;
+      uni.request({
+        url: 'http://127.0.0.1:8080/v1/video/user/like-list',
+        method: "POST",
+        data: {
+          "user_id": user_id
+        },
+        header: {
+          "access-token": uni.getStorageSync("access-token")
+        },
+        success: function success(res) {
+          _this2.likes = res.data.data.video_list;
         }
       });
     },
@@ -185,13 +219,38 @@ var _default = {
       this.show = res;
     },
     click: function click() {
-      uni.navigateBack({
-        delta: 1
+      uni.navigateBack();
+    },
+    // 获取用户信息
+    getUserInfo: function getUserInfo(userId) {
+      var _this3 = this;
+      uni.request({
+        url: 'http://127.0.0.1:8080/v1/user/' + userId,
+        method: 'GET',
+        header: {
+          'access-token': uni.getStorageSync("access-token")
+        },
+        success: function success(res) {
+          _this3.userInfo.userId = res.data.data.user_id;
+          _this3.userInfo.avatar = res.data.data.avatar;
+          _this3.userInfo.name = res.data.data.name;
+          _this3.userInfo.email = res.data.data.email;
+          _this3.userInfo.signature = res.data.data.signature;
+          _this3.userInfo.follow = res.data.data.follower_count;
+          _this3.userInfo.fans = res.data.data.followed_count;
+          _this3.userInfo.isFollow = res.data.is_follow;
+        }
       });
     }
   },
-  created: function created() {
-    this.getVideoInfo();
+  created: function created() {},
+  onShow: function onShow() {
+    var query = this.$route.query;
+    var userId = query.author_id;
+    var numericAuthorId = Number(userId);
+    this.getUserInfo(numericAuthorId);
+    this.getVideoInfo(numericAuthorId);
+    this.getLikes(numericAuthorId);
   }
 };
 exports.default = _default;

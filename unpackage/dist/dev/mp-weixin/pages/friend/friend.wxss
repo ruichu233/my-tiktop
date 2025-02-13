@@ -15,6 +15,31 @@
 	border-bottom: 1px solid #444;
 	/* 底部分隔线 */
 }
+.nav-bar.data-v-3c667ff4 {
+	display: flex;
+	white-space: nowrap;
+	overflow-x: auto;
+	/* 确保可以水平滚动 */
+	-webkit-overflow-scrolling: touch;
+	/* 优化滚动效果 */
+	width: 100%;
+	/* 确保scroll-view占满宽度 */
+}
+.nav-item.data-v-3c667ff4 {
+	display: inline-block;
+	/* 保证它们是水平排列的 */
+	padding: 10px 20px;
+	font-size: 16px;
+	color: #bbb;
+	flex-shrink: 0;
+	/* 防止导航项收缩 */
+	white-space: nowrap;
+	/* 保证内容不会换行 */
+}
+.nav-item.active.data-v-3c667ff4 {
+	color: #fff;
+	border-bottom: 2px solid #fff;
+}
 .header-title.data-v-3c667ff4 {
 	font-size: 20px;
 	font-weight: bold;

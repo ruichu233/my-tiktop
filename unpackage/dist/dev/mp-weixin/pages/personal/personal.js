@@ -143,22 +143,22 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = void 0;
 var tab = function tab() {
   __webpack_require__.e(/*! require.ensure | components/tab */ "components/tab").then((function () {
-    return resolve(__webpack_require__(/*! ../../components/tab.vue */ 231));
+    return resolve(__webpack_require__(/*! ../../components/tab.vue */ 247));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var personalInfo = function personalInfo() {
   __webpack_require__.e(/*! require.ensure | components/personalInfo */ "components/personalInfo").then((function () {
-    return resolve(__webpack_require__(/*! ../../components/personalInfo.vue */ 266));
+    return resolve(__webpack_require__(/*! ../../components/personalInfo.vue */ 282));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var personalList = function personalList() {
   __webpack_require__.e(/*! require.ensure | components/personalList */ "components/personalList").then((function () {
-    return resolve(__webpack_require__(/*! ../../components/personalList.vue */ 273));
+    return resolve(__webpack_require__(/*! ../../components/personalList.vue */ 289));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var followList = function followList() {
   __webpack_require__.e(/*! require.ensure | components/followList */ "components/followList").then((function () {
-    return resolve(__webpack_require__(/*! ../../components/followList.vue */ 280));
+    return resolve(__webpack_require__(/*! ../../components/followList.vue */ 296));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var _default = {
@@ -182,6 +182,7 @@ var _default = {
       },
 
       list: [],
+      likes: [],
       show: "作品",
       pages: "personal"
     };
@@ -200,6 +201,23 @@ var _default = {
         },
         success: function success(res) {
           _this.list = res.data.data.video_list;
+          console.log(res.data.data.video_list);
+        }
+      });
+    },
+    getLikes: function getLikes() {
+      var _this2 = this;
+      uni.request({
+        url: 'http://127.0.0.1:8080/v1/video/user/like-list',
+        method: "POST",
+        data: {
+          "user_id": uni.getStorageSync("userId")
+        },
+        header: {
+          "access-token": uni.getStorageSync("access-token")
+        },
+        success: function success(res) {
+          _this2.likes = res.data.data.video_list;
         }
       });
     },
@@ -208,7 +226,7 @@ var _default = {
     },
     // 获取用户信息
     getUserInfo: function getUserInfo(userId) {
-      var _this2 = this;
+      var _this3 = this;
       uni.request({
         url: 'http://127.0.0.1:8080/v1/user/' + userId,
         method: 'GET',
@@ -216,20 +234,20 @@ var _default = {
           'access-token': uni.getStorageSync("access-token")
         },
         success: function success(res) {
-          console.log(res);
-          _this2.userInfo.userId = res.data.data.user_id;
-          _this2.userInfo.avatar = res.data.data.avatar;
-          _this2.userInfo.name = res.data.data.name;
-          _this2.userInfo.email = res.data.data.email;
-          _this2.userInfo.signature = res.data.data.signature;
-          _this2.userInfo.follow = res.data.data.follower_count;
-          _this2.userInfo.fans = res.data.data.followed_count;
-          console.log(_this2.userInfo);
+          _this3.userInfo.userId = res.data.data.user_id;
+          _this3.userInfo.avatar = res.data.data.avatar;
+          _this3.userInfo.name = res.data.data.name;
+          _this3.userInfo.email = res.data.data.email;
+          _this3.userInfo.signature = res.data.data.signature;
+          _this3.userInfo.follow = res.data.data.follower_count;
+          _this3.userInfo.fans = res.data.data.followed_count;
+          console.log(_this3.userInfo);
         }
       });
     }
   },
-  created: function created() {
+  created: function created() {},
+  onShow: function onShow() {
     //判断是否登录，如果未登录则跳转到登录页面
     console.log(uni.getStorageSync("access-token"));
     if (uni.getStorageSync("access-token") == "") {
@@ -237,11 +255,10 @@ var _default = {
         url: "/pages/login/login"
       });
     }
-  },
-  onShow: function onShow() {
     var userId = uni.getStorageSync("userId");
     this.getUserInfo(userId);
     this.getVideoInfo();
+    this.getLikes();
   }
 };
 exports.default = _default;

@@ -9,7 +9,8 @@
     "pages/user/user",
     "pages/follow/follow",
     "pages/chat/chat",
-    "pages/register/register"
+    "pages/register/register",
+    "pages/changeInfo/changeInfo"
   ],
   "subPackages": [],
   "window": {
@@ -32,6 +33,9 @@
       },
       {
         "pagePath": "pages/personal/personal"
+      },
+      {
+        "pagePath": "pages/follow/follow"
       }
     ]
   },
