@@ -137,10 +137,12 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 /* WEBPACK VAR INJECTION */(function(uni) {
 
+var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ 4);
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = void 0;
+var _toConsumableArray2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/toConsumableArray */ 18));
 var tab = function tab() {
   __webpack_require__.e(/*! require.ensure | components/tab */ "components/tab").then((function () {
     return resolve(__webpack_require__(/*! ../../components/tab.vue */ 247));
@@ -200,7 +202,7 @@ var _default = {
           "access-token": uni.getStorageSync("access-token")
         },
         success: function success(res) {
-          _this.list = res.data.data.video_list;
+          _this.list = (0, _toConsumableArray2.default)(res.data.data.video_list);
           console.log(res.data.data.video_list);
         }
       });
@@ -217,7 +219,7 @@ var _default = {
           "access-token": uni.getStorageSync("access-token")
         },
         success: function success(res) {
-          _this2.likes = res.data.data.video_list;
+          _this2.likes = (0, _toConsumableArray2.default)(res.data.video_list);
         }
       });
     },

@@ -48,7 +48,7 @@
 				}else{
 					this.myitem.like_count -= 1 
 				}
-					
+				
 				
 			},
 			change(){

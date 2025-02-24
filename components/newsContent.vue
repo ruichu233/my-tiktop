@@ -39,7 +39,7 @@
 						avatar: "../static/img/author.jpg",
 						lastMessage: "你好，我是张三。我特别爱吃！！！",
 						lastMessageTime: "8-1",
-						otherUserID: "user123"
+						otherUserID: "647125233569861"
 					},
 					{
 						id: 2,
@@ -47,7 +47,7 @@
 						avatar: "../static/img/author.jpg",
 						lastMessage: "你好，我是李四。我特别爱睡觉！！！",
 						lastMessageTime: "8-2",
-						otherUserID: "user124"
+						otherUserID: "647125233569861"
 					},
 					{
 						id: 3,
@@ -55,7 +55,7 @@
 						avatar: "../static/img/author.jpg",
 						lastMessage: "你好，我是王二麻。我特别爱购物！！！",
 						lastMessageTime: "8-1",
-						otherUserID: "user125"
+						otherUserID: "647125233569861"
 					},
 					// 这里可以加入更多的会话数据
 				]

@@ -27,18 +27,42 @@ class WebSocketManager {
 
   initEventHandlers() {
     uni.onSocketOpen(() => {
-      console.log("WebSocket 连接成功");
-      this.status = "connected";
-      this.triggerEvent("open");
+        console.log("WebSocket 连接成功");
+        this.status = "connected";
+        this.triggerEvent("open");
     });
 
     uni.onSocketMessage(({ data }) => {
-      try {
-        const message = JSON.parse(decodeURIComponent(data));
-        this.triggerEvent("message", message);
-      } catch (err) {
-        console.error("消息解析失败", err);
-      }
+        console.log("收到原始消息:", data);
+        try {
+            // 如果数据已经是对象，直接使用
+            if (typeof data === 'object') {
+                console.log("数据是对象，直接使用:", data);
+                this.triggerEvent("message", data);
+                return;
+            }
+
+            // 尝试解析字符串数据
+            let parsedData;
+            try {
+                parsedData = JSON.parse(data);
+            } catch (parseError) {
+                // 如果解析失败，尝试先解码再解析
+                try {
+                    parsedData = JSON.parse(decodeURIComponent(data));
+                } catch (decodeError) {
+                    console.error("数据解析失败:", data);
+                    return;
+                }
+            }
+
+            console.log("解析后的消息:", parsedData);
+            this.triggerEvent("message", parsedData);
+        } catch (err) {
+            console.error("消息处理失败:", err);
+            // 如果所有解析都失败，尝试直接发送原始数据
+            this.triggerEvent("message", data);
+        }
     });
 
     uni.onSocketError((err) => {

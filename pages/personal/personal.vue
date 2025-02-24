@@ -2,10 +2,10 @@
 	<view class="personal">
 		<personal-info @change="change" :userInfo="userInfo"></personal-info>
 		<view class="" v-show="show==='作品'">
-			<personal-list :videoList=list></personal-list>
+			<personal-list :videoList="list"></personal-list>
 		</view>
 		<view class="" v-show="show==='喜欢'">
-			<personal-list :videoList=likes></personal-list>
+			<personal-list :videoList="likes"></personal-list>
 		</view>
 		<tab></tab>
 	</view>
@@ -52,7 +52,7 @@
 						"access-token": uni.getStorageSync("access-token")
 					},
 					success: (res) => {
-						this.list = res.data.data.video_list
+						this.list = [...res.data.data.video_list]
 						console.log(res.data.data.video_list)
 					}
 				})
@@ -68,7 +68,7 @@
 						"access-token": uni.getStorageSync("access-token")
 					},
 					success: (res) => {
-						this.likes = res.data.data.video_list
+						this.likes = [...res.data.video_list]
 					}
 				})
 			},

@@ -11,7 +11,7 @@
 						<listLeft :item="item"></listLeft>
 					</view>
 					<view class="right-box">
-						<listRight @open="openComment(item.video_id)" :item="item" ref="right"></listRight>
+						<listRight @open="openComment(item.video_id)" @star="like(item.video_id)" :item="item" ref="right"></listRight>
 					</view>
 					<view v-show="show" class="comment-box">
 						<zwz-comment :comments="comments" @comment-like="commentLike" @send-comment="commentSend" v-model="value"
@@ -146,6 +146,24 @@
 				// ueserNickName: 上级评论的用户名
 				// reply： 回复评论的全部信息
 			},
+			like(id){
+				uni.request({
+					url:"http://127.0.0.1:8080/v1/comment/commment-publish",
+					method:'POST',
+					header:{
+						"access-token":uni.getStorageSync("access-token")
+						},
+					data:{
+						"video_id":video_id,
+						"content":this.value,
+						"superCommentId":superCommentId,
+						"beReplayUserId":beReplayUserId
+					},
+					success: (res) => {
+						this.getCommentList(video_id)
+					},
+				})
+			}
 		}
 	}
 </script>

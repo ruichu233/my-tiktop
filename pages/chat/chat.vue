@@ -32,26 +32,41 @@
 				inputMessage: '',
 				messages: [],
 				otherUserID:'',
+				userId:'',
+				myInfo:null,
+				otherInfo:null,
 			};
 		},
 		onLoad(options) {
 			this.otherUserID = options.otherUserID;
+			this.userId = uni.getStorageSync("userId")
+			console.log(this.userId)
 			this.connectWebSocket();
+			this.getUserInfo()
 		},
 		methods: {
 			connectWebSocket() {
-				const url = "wss://your-websocket-url.com"; // 替换为你的WebSocket服务器地址
+				const url = "ws://127.0.0.1:8080/v1/ws/chat/connect/"+this.userId; // 替换为你的WebSocket服务器地址
 				WebSocketInstance.connect(url);
 				WebSocketInstance.addListener("open", () => {
 					console.log("WebSocket 连接已打开");
 				});
-				WebSocketInstance.addListener("message", (data) => {
-					this.messages.push({
-						nickname: data.nickname,
-						text: data.text,
-						avatar: data.avatar,
-						self: data.self
-					});
+				WebSocketInstance.addListener("message", (rawData) => {
+					console.log("原始数据:", rawData);
+					
+					console.log("  adad:", this.otherInfo);
+					
+					try {						
+						this.messages.push({
+							nickname: this.otherInfo.name,
+							text: rawData.message.content,
+							avatar: this.otherInfo.avatar,
+							self: false
+						});
+						console.log("消息已添加到 messages 数组",this.messages);
+					} catch (error) {
+						console.error("消息处理错误:", error);
+					}
 				});
 				WebSocketInstance.addListener("close", () => {
 					console.log("WebSocket 连接已关闭");
@@ -63,15 +78,37 @@
 			sendMessage() {
 				if (this.inputMessage.trim() !== '') {
 					const message = {
-						nickname: '用户1', // 假设发送消息的用户昵称
+						nickname: this.myInfo.name, // 假设发送消息的用户昵称
 						text: this.inputMessage,
-						avatar: '/static/avatar2.png', // 假设发送消息的用户头像
+						avatar: this.myInfo.avatar, // 假设发送消息的用户头像
 						self: true
 					};
+					let otherIdNumber = parseInt(this.otherUserID);  // 使用 parseInt 将字符串转换为数字
+					const sendMessage ={
+						type:"message",
+						receiver_id:otherIdNumber,
+						content:this.inputMessage,
+					}
 					this.messages.push(message);
-					WebSocketInstance.sendMessage(message);
+					WebSocketInstance.sendMessage(sendMessage);
 					this.inputMessage = '';
 				}
+			},
+			getUserInfo(){
+				// 使用箭头函数保持 this 的指向
+				uni.request({
+					url:"http://127.0.0.1:8080/v1/user/" + this.userId,
+					success: (res) => {
+						this.myInfo = res.data.data
+					}
+				})
+				
+				uni.request({
+					url:"http://127.0.0.1:8080/v1/user/" + this.otherUserID,
+					success: (res) => {
+						this.otherInfo = res.data.data
+					}
+				})
 			}
 		}
 	};

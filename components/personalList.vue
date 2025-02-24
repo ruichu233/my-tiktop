@@ -1,7 +1,7 @@
 <template>
-	<view class="">
+	<view>
 		<view class="personalList">
-			<view class="item" v-for="(item,index) in myVideoList" :key="item.id">
+			<view class="item" v-for="(item,index) in videoList" :key="item.id">
 				<video 
 				class="video" 
 				:src="item.video_url" 
@@ -26,19 +26,22 @@
 </template>
 
 <script>
-	export default {
-		props: {
-			"videoList":[]
-		},
-		data() {
-			return {
-				myVideoList:this.videoList
-			};
+export default {
+	props: {
+		videoList: {
+			type: Array, // 确保类型是 Array
+			required: true
 		}
+	},
+	data() {
+		return {
+			myVideoList:this.videoList
+		};
 	}
+}
 </script>
 
-<style>
+<style scoped>
 .ground{
 	width: 100%;
 	height: 50px;

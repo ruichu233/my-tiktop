@@ -1,35 +1,35 @@
 
-.ground{
+.ground.data-v-0bde328e{
 	width: 100%;
 	height: 50px;
 	background: #000000;
 }
-.personalList{
+.personalList.data-v-0bde328e{
 	width: 100%;
 	overflow: hidden;
 	background: #000000;
 	padding: 0 0.5%;
 }
-.item{
+.item.data-v-0bde328e{
 	width: 33%;
 	height: 120px;
 	float: left;
 	position: relative;
 }
-.love-box{
+.love-box.data-v-0bde328e{
 	position: absolute;
 	bottom: 5px;
 	left: 10px;
 }
-.video{
+.video.data-v-0bde328e{
 	width:100%;
 	height:100%;
 }
-.love-icon{
+.love-icon.data-v-0bde328e{
 	font-size: 14px;
 	color: #FFFFFF;
 }
-.more{
+.more.data-v-0bde328e{
 	width: 100%;
 	height: 30px;
 	line-height: 30px;

@@ -161,6 +161,12 @@
 				}
 				this.loadFriends();
 			},
+			// 点击进入聊天页面
+			goToChat(otherUserID) {
+				uni.navigateTo({
+					url: `/pages/chat/chat?otherUserID=${otherUserID}`
+				});
+			}
 		},
 		mounted() {
 			// 从localstorage获取userId并确保其为数字类型

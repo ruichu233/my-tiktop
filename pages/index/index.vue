@@ -43,7 +43,6 @@
 					},
 					success: (res) => {
 						this.list = res.data.data.video_list
-					//	console.log(this.list)
 					}
 				})
 			},
