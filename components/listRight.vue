@@ -13,7 +13,7 @@
 		<view class="iconfont icontubiaozhizuo- right-box" @click="openComment">
 		</view>
 		<view class="number">
-			{{myitem.comment_count}}
+		<!-- {{myitem.comment_count}}-->
 		</view>
 <!-- 		<view class="iconfont iconfenxiang right-box">
 		</view> -->
@@ -29,30 +29,57 @@
 		data() {
 			return {
 				myitem:this.item,
-				show:!this.item.is_like,
-				color:'',
+				show:!this.item.is_interaction,
+				color:this.item.is_like?"color:red;":'',
 				defaultAvatar : 'https://qiniu-web-assets.dcloud.net.cn/unidoc/zh/shuijiao.jpg',
 			};
 		},
+		onLoad() {
+			
+		},
 		methods:{
 			hide(){
-				this.show=false
-				// uni.request({
-				// 	url:"http://127.0.0.1:8080/v1/"
-				// })
+				this.show=!this.show
+				let type = 1
+				if (this.show === true){
+					type = 2
+				}
+				
+				uni.request({
+					url:"http://127.0.0.1:8080/v1/follow/follow-action",
+					method:'POST',
+					header: {
+						"access-token":uni.getStorageSync('access-token'),
+					},
+					data:{
+						"action_type":type,
+						"followee_id":this.item.author_id,
+					}
+				})
 			},
 			changeColor(){
-				this.color=this.color===''?"color:red;":''
-				if (this.color != ''){
+				this.item.is_like = !this.item.is_like
+				this.color=this.item.is_like?"color:red;":''
+				let type = 1
+				if (this.item.is_like === false){
+					type = 2
+				}
+				uni.request({
+					url:"http://127.0.0.1:8080/v1/like/"+this.myitem.video_id+"/like",
+					method:'POST',
+					header: {
+						"access-token":uni.getStorageSync('access-token'),
+					},
+					data:{
+						"action_type":type,
+						"biz_id":"video_like",
+					}
+				})
+				if (type == 1){
 					this.myitem.like_count += 1 
 				}else{
 					this.myitem.like_count -= 1 
 				}
-				
-				
-			},
-			change(){
-				this.color="color:red;"
 			},
 			click(){
 				uni.navigateTo({

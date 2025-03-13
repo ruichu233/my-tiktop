@@ -2,7 +2,7 @@
 	<view class="personal">
 		<view @click="click" class="iconfont iconfanhui icon-fanhui">
 		</view>
-		<personal-info :pages="pages" @change="change" :userInfo="userInfo"></personal-info>
+		<personal-info :pages="pages" @change="change" :userInfo="userInfo" :isfollow="isfollow"></personal-info>
 		<view class="" v-show="show==='作品'">
 			<personal-list :videoList="list" ></personal-list>
 		</view>
@@ -32,12 +32,12 @@
 					signature:"个性签名",
 					follow: 0, // 关注者数量
 					fans: 0, // 被关注者数量(粉丝数)
-					isFollow:false
 				},
 				list:[],
 				likes:[],
 				show:"作品",
-				pages:"user"
+				pages:"user",
+				isfollow:false
 			}
 		},
 		methods: {
@@ -67,7 +67,7 @@
 						"access-token": uni.getStorageSync("access-token")
 					},
 					success: (res) => {
-						this.likes = res.data.data.video_list
+						this.likes = res.data.video_list
 					}
 				})
 			},
@@ -75,6 +75,7 @@
 				this.show=res
 			},
 			click(){
+				console.log(this.isfollow)
 				uni.navigateBack()
 			},
 			// 获取用户信息
@@ -93,13 +94,27 @@
 						this.userInfo.signature = res.data.data.signature
 						this.userInfo.follow = res.data.data.follower_count
 						this.userInfo.fans = res.data.data.followed_count
-						this.userInfo.isFollow = res.data.is_follow
 					}
 				})
 			},
+			checkIsFollow(to_user_id){
+				let useIdNum = parseInt(uni.getStorageSync("userId"))
+				uni.request({
+					url:"http://127.0.0.1:8080/v1/follow/check-follow",
+					method:"POST",
+					header:{
+						"access-token":uni.getStorageSync("access-token"),
+					},
+					data:{
+						"user_id":useIdNum,
+						"to_user_id":to_user_id  
+					},
+					success: (res) => { 
+						this.isfollow = res.data.is_follow 
+					}
+				})
+			}
 			
-		},
-		created() {
 		},
 		onShow() {
 			const query = this.$route.query;
@@ -108,6 +123,7 @@
 			this.getUserInfo(numericAuthorId)
 			this.getVideoInfo(numericAuthorId)
 			this.getLikes(numericAuthorId)
+			this.checkIsFollow(numericAuthorId)
 		}
 		
 	}

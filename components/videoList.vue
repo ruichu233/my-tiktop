@@ -117,7 +117,6 @@
 				console.log('返回点击的评论信息', e);
 			},
 			commentSend(superCommentId,video_id,beReplayUserId) {
-				console.log(superCommentId,video_id,beReplayUserId)
 				uni.request({
 					url:"http://127.0.0.1:8080/v1/comment/commment-publish",
 					method:'POST',

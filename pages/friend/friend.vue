@@ -11,7 +11,7 @@
 		</view>
 
 		<!-- 好友列表 -->
-		<view v-if="currentTab === 0" v-for="friend in friends" :key="friend.id" class="friend-item">
+		<view v-if="currentTab === 0" v-for="friend in friends" :key="friend.id" class="friend-item" @click="goToChat(friend.id)">
 			<view class="friend-avatar-container">
 				<image :src="friend.avatar" class="friend-avatar" />
 			</view>
@@ -168,7 +168,7 @@
 				});
 			}
 		},
-		mounted() {
+		onLoad() {
 			// 从localstorage获取userId并确保其为数字类型
 			const userIdFromStorage = uni.getStorageSync('userId');
 			this.userId = typeof userIdFromStorage === 'number' ? userIdFromStorage : parseInt(userIdFromStorage, 10);

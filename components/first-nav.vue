@@ -3,7 +3,7 @@
 		<view class="iconfont iconsousuo icon">
 		</view>
 		<view class="middle">
-			<navigator open-type="switchTab" class="text" url="/pages/recommend/recommend">
+			<navigator open-type="switchTab" class="text" url="/pages/index/index">
 				推荐
 			</navigator>
 			<navigator open-type="switchTab" class="text" url="/pages/follow/follow">

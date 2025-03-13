@@ -46,12 +46,6 @@
 					}
 				})
 			},
-			// 点赞
-			likeAction(){
-				uni.request({
-					url:""
-				})
-			}
 		}
 	}
 </script>
